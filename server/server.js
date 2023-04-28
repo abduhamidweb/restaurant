@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 import fileUpload from "express-fileupload";
 dotenv.config();
 import cors from "cors";
-// import userRoutes from '../routes/users.routes.js';
+import bossRoutes from '../routes/boss.routes.js';
 // import postRoutes from '../routes/posts.routes.js';
 // import commentRoutes from '../routes/comments.routes.js';
 
@@ -16,6 +16,7 @@ const app = express();
 //         fileSize: 50 * 1024 * 1024
 //     }
 // }));
+
 app.use(express.json());
 app.use(cors("*"));
 app.use(express.static("./public"));
@@ -25,7 +26,7 @@ app.use(express.static("./public"));
 // app.use(bodyParser.json());
 app.use(express.json());
 // User routes
-// app.use('/api', userRoutes);
+app.use('/api', bossRoutes);
 
 // Post routes
 // app.use('/api', postRoutes);

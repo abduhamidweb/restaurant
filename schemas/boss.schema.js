@@ -1,13 +1,13 @@
 import mongoose from "mongoose";
-const userSchema = new mongoose.Schema({
-    username: {
+const bossSchema = new mongoose.Schema({
+    bossname: {
         type: String,
         required: true,
         trim: true,
         lowercase: true
     },
     password: {
-        type: String, 
+        type: String,
         required: true
     },
     email: {
@@ -16,17 +16,21 @@ const userSchema = new mongoose.Schema({
         unique: true,
         trim: true,
         lowercase: true
-    }
+    },
+    restaurant: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Restaurant',
+    }]
 });
 
-export default mongoose.model('User', userSchema);
+export default mongoose.model('Boss', bossSchema);
 
-// const user = new Users({ 
-//     username: 'johnDoe',
+// const boss = new bosss({ 
+//     bossname: 'johnDoe',
 //     password: 'password123',
 //     email: 'johndoe@example.com'
 // });
 
-// user.save()
-//     .then(() => console.log('User saved to database'))
+// boss.save()
+//     .then(() => console.log('boss saved to database'))
 //     .catch((err) => console.error(err));
