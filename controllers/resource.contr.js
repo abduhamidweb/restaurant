@@ -1,51 +1,51 @@
-import bossSchema from '../schemas/boss.schema.js';
+import Resource from '../schemas/resource.schema.js';
 import Restaurant from '../schemas/restuarant.schema.js';
 
-class RestaurantController {
+class ResourceController {
 
-    // Create a new restaurant
+    // Create a new resource
     async create(req, res) {
-        const restaurant = new Restaurant(req.body);
+        const resource = new Resource(req.body);
         try {
-            await bossSchema.findByIdAndUpdate(req.body.boss, {
+            await Restaurant.findByIdAndUpdate(req.body.res_id, {
                 $push: {
-                    restaurant: restaurant._id
+                    resource: resource._id
                 }
             })
-            await restaurant.save();
-            res.status(201).send(restaurant);
+            await resource.save();
+            res.status(201).send(resource);
         } catch (error) {
             res.status(400).send(error);
         }
     }
 
-    // Get all restaurants
+    // Get all resources
     async findAll(req, res) {
         try {
-            const restaurants = await Restaurant.find();
-            res.send(restaurants);
+            const resources = await Resource.find();
+            res.send(resources);
         } catch (error) {
             res.status(500).send(error);
         }
     }
 
-    // Get a single restaurant by ID
+    // Get a single resource by ID
     async findOne(req, res) {
         try {
-            const restaurant = await Restaurant.findById(req.params.id).populate('resource');
-            if (!restaurant) {
+            const resource = await Resource.findById(req.params.id);
+            if (!resource) {
                 return res.status(404).send();
             }
-            res.send(restaurant);
+            res.send(resource);
         } catch (error) {
             res.status(500).send(error);
         }
     }
 
-    // Update a restaurant by ID
+    // Update a resource by ID
     async update(req, res) {
         const updates = Object.keys(req.body);
-        const allowedUpdates = ['rest_name', 'rest_year', 'description', 'contact', 'rest_img'];
+        const allowedUpdates = ['title', 'description', 'space', 'videoLink', 'res_id'];
         const isValidOperation = updates.every(update => allowedUpdates.includes(update));
 
         if (!isValidOperation) {
@@ -55,33 +55,33 @@ class RestaurantController {
         }
 
         try {
-            const restaurant = await Restaurant.findByIdAndUpdate(
+            const resource = await Resource.findByIdAndUpdate(
                 req.params.id,
                 req.body, {
                     new: true
                 }
             );
-            if (!restaurant) {
+            if (!resource) {
                 return res.status(404).send();
             }
-            res.send(restaurant);
+            res.send(resource);
         } catch (error) {
             res.status(400).send(error);
         }
     }
 
-    // Delete a restaurant by ID
+    // Delete a resource by ID
     async delete(req, res) {
         try {
-            const restaurant = await Restaurant.findByIdAndDelete(req.params.id);
-            if (!restaurant) {
+            const resource = await Resource.findByIdAndDelete(req.params.id);
+            if (!resource) {
                 return res.status(404).send();
             }
-            res.send(restaurant);
+            res.send(resource);
         } catch (error) {
             res.status(500).send(error);
         }
     }
 }
 
-export default RestaurantController;
+export default ResourceController;

@@ -6,6 +6,7 @@ dotenv.config();
 import cors from "cors";
 import bossRoutes from '../routes/boss.routes.js';
 import resturantRoutes from '../routes/restaurant.routes.js';
+import resoursceRoutes from '../routes/resource.routes.js';
 // import postRoutes from '../routes/posts.routes.js';
 // import commentRoutes from '../routes/comments.routes.js';
 
@@ -29,6 +30,7 @@ app.use(express.json());
 // User routes
 app.use('/api', bossRoutes);
 app.use('/api', resturantRoutes);
+app.use('/api', resoursceRoutes);
 
 // Post routes
 // app.use('/api', postRoutes);

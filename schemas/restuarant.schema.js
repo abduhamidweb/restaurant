@@ -29,7 +29,12 @@ const restaurantSchema = new mongoose.Schema({
     rest_img: {
         type: String,
         required: true
-    }
+    },
+    resource: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Resource',
+    }]
+
 }, {
     timestamps: true
 });
