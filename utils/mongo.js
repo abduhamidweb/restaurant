@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-mongoose.connect("mongodb+srv://abduhamidbotirovweb:abduhamidjon707@cluster0.ab9kvno.mongodb.net/restourant?retryWrites=true&w=majority").then(() => {
+mongoose.connect("mongodb+srv://abduhamidbotirovweb:abduhamidjon707@cluster0.ab9kvno.mongodb.net/restaurant?retryWrites=true&w=majority").then(() => {
   console.log("connection");
 });
 
