@@ -5,6 +5,7 @@ import fileUpload from "express-fileupload";
 dotenv.config();
 import cors from "cors";
 import bossRoutes from '../routes/boss.routes.js';
+import resturantRoutes from '../routes/restaurant.routes.js';
 // import postRoutes from '../routes/posts.routes.js';
 // import commentRoutes from '../routes/comments.routes.js';
 
@@ -27,6 +28,7 @@ app.use(express.static("./public"));
 app.use(express.json());
 // User routes
 app.use('/api', bossRoutes);
+app.use('/api', resturantRoutes);
 
 // Post routes
 // app.use('/api', postRoutes);

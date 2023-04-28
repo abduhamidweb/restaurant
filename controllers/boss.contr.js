@@ -30,11 +30,10 @@ class BossController {
             res.status(500).send(error);
         }
     }
-
     // Get a single Boss by ID
     async findOne(req, res) {
         try {
-            const boss = await Boss.findById(req.params.id);
+            const boss = await Boss.findById(req.params.id).populate('restaurant');
             if (!boss) {
                 return res.status(404).send();
             }
