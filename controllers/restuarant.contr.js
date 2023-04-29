@@ -2,7 +2,6 @@ import bossSchema from '../schemas/boss.schema.js';
 import Restaurant from '../schemas/restuarant.schema.js';
 
 class RestaurantController {
-
     // Create a new restaurant
     async create(req, res) {
         const restaurant = new Restaurant(req.body);
