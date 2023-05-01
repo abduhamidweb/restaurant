@@ -33,8 +33,11 @@ const restaurantSchema = new mongoose.Schema({
     resource: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Resource',
+    }],
+    users: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
     }]
-
 }, {
     timestamps: true
 });
