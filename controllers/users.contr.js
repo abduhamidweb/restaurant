@@ -38,7 +38,8 @@ class UserService {
         try {
             const user = await User.find({
                 email: data.useremail,
-                password: data.userpassword
+                password: data.userpassword,
+                rol: "admin"
             });
             if (user.length > 0) return user;
             else return "Siz admin emasizz"

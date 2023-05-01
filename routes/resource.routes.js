@@ -15,7 +15,6 @@ router.get('/resources/:id', controller.findOne);
 
 // Update a resource by ID
 router.put('/resources/:id', controller.update);
-
 // Delete a resource by ID
 router.delete('/resources/:id', controller.delete);
 

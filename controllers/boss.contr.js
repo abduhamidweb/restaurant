@@ -1,3 +1,4 @@
+import bossSchema from '../schemas/boss.schema.js';
 import Boss from '../schemas/boss.schema.js';
 import {
     JWT
@@ -20,11 +21,32 @@ class BossController {
             res.status(400).send(error);
         }
     }
-
+    async login(req, res) {
+        try {
+            let data = req.body
+            const boss = await bossSchema.find({
+                email: data.useremail,
+                password: data.userpassword
+            });
+            if (!boss) return res.status(201).send({
+                message: "You are not boss, "
+            })
+            else {
+                res.status(201).send({
+                    data: boss,
+                    token: JWT.SIGN({
+                        id: boss._id
+                    })
+                });
+            }
+        } catch (error) {
+            res.status(400).send(error);
+        }
+    }
     // Get all Bosses
     async findAll(req, res) {
         try {
-            const bosses = await Boss.find();
+            const bosses = await Boss.find().populate('restaurant');
             res.send(bosses);
         } catch (error) {
             res.status(500).send(error);

@@ -6,6 +6,7 @@ const bossController = new BossController();
 
 // Create a new boss
 router.post('/boss', bossController.create);
+router.post('/boss/login', bossController.login);
 
 // Get all bosses
 router.get('/boss', bossController.findAll);

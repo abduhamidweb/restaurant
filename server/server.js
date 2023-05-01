@@ -21,7 +21,14 @@ const app = express();
 // }));
 
 app.use(express.json());
-app.use(cors("*"));
+app.use(cors());
+// app.use(cors());
+// app.use(cors({
+//     origin: '*', // Tüm kaynaklara izin ver
+//     methods: 'GET, POST, PUT, DELETE', // İzin verilen HTTP yöntemleri
+//     allowedHeaders: 'Content-Type, Authorization', // İzin verilen HTTP başlıkları
+//     credentials: true // Kimlik doğrulaması gerektir
+// }));
 app.use(express.static("./public"));
 // app.engine("html", ejs.renderFile);
 // app.set("view engine", "html");
