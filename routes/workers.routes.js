@@ -20,7 +20,16 @@ router.get('/worker', async (req, res) => {
         });
     }
 });
-
+router.get('/workeradmin', async (req, res) => {
+    try {
+        const worker = await workerService.getAlladmin();
+        res.status(200).json(worker);
+    } catch (err) {
+        res.status(500).json({
+            error: err.message
+        });
+    }
+});
 router.get('/worker/:id', async (req, res) => {
     try {
         const user = await workerService.getUserById(req.params.id);

@@ -1,12 +1,15 @@
 import bossSchema from '../schemas/boss.schema.js';
 import Restaurant from '../schemas/restuarant.schema.js';
+import {
+    JWT
+} from '../utils/jwt.js';
 
 class RestaurantController {
     // Create a new restaurant
     async create(req, res) {
         const restaurant = new Restaurant(req.body);
         try {
-            await bossSchema.findByIdAndUpdate(req.body.boss, {
+            await bossSchema.findByIdAndUpdate("644bf1d933bf77f600a944ff", {
                 $push: {
                     restaurant: restaurant._id
                 }
@@ -27,7 +30,6 @@ class RestaurantController {
             res.status(500).send(error);
         }
     }
-
     // Get a single restaurant by ID
     async findOne(req, res) {
         try {

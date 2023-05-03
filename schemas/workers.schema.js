@@ -6,16 +6,13 @@ import mongoose, {
 const WorkerSchema = new mongoose.Schema({
     username: {
         type: String,
-        required: true
     },
     email: {
         type: String,
-        required: true,
         unique: true
     },
     password: {
         type: String,
-        required: true
     },
     userPhone: {
         type: String,
@@ -33,7 +30,7 @@ const WorkerSchema = new mongoose.Schema({
         type: String,
     },
     rol: {
-        type: String,
+        type: String, 
     },
     res_id: {
         type: Types.ObjectId,

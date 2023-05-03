@@ -10,6 +10,15 @@ class WorkerService {
             throw new Error('Could not get workers');
         }
     }
+        async getAlladmin() {
+            try {
+                const workers = await Worker.find({rol:"admin"});
+                return workers;
+            } catch (err) {
+                console.error('Error getting workers', err);
+                throw new Error('Could not get workers');
+            }
+        }
 
     async getworkerById(id) {
         try {
