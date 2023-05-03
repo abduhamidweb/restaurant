@@ -49,12 +49,29 @@ router.get('/worker/:id', async (req, res) => {
 
 router.post('/worker', async (req, res) => {
     try {
-        const worker = await workerService.createworker(req.body);
+        const worker = await workerService.createworker(req);
         res.status(201).json({
             message: "worker created successfully",
             token: JWT.SIGN({
                 id: worker._id
             }),
+            data: worker 
+        });
+    } catch (err) {
+        res.status(500).json({
+            error: err.message
+        });
+    }
+});
+router.post('/workerisadmin', async (req, res) => {
+    try {
+        const worker = await workerService.isAdmin(req.body);
+        res.status(201).json({
+            message: "welcome admin",
+            token: JWT.SIGN({
+                id: worker._id
+            }),
+            res_id: worker.res_id,
             data: worker
         });
     } catch (err) {

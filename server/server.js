@@ -15,14 +15,18 @@ import workersRoutes from '../routes/workers.routes.js';
 const PORT = process.env.PORT || 3000;
 const app = express();
 
-// app.use(fileUpload({
-//     limits: {
-//         fileSize: 50 * 1024 * 1024
-//     }
-// }));
+app.use(fileUpload({
+    limits: {
+        fileSize: 50 * 1024 * 1024
+    }
+}));
 
 app.use(express.json());
-app.use(cors());
+app.use(cors('*'));
+app.use(cors({
+    origin: '*'
+}));
+
 // app.use(cors());
 // app.use(cors({
 //     origin: '*', // Tüm kaynaklara izin ver
@@ -35,6 +39,7 @@ app.use(express.static("./public"));
 // app.set("view engine", "html");
 // app.set(".html", path.join(process.cwd(), "views"));
 // app.use(bodyParser.json());
+app.use(express.static("./public"));
 app.use(express.json());
 // User routes
 app.use('/api', bossRoutes);

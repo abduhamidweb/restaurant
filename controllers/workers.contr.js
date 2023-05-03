@@ -1,5 +1,6 @@
 import Restaurant from '../schemas/restuarant.schema.js';
 import Worker from "../schemas/workers.schema.js";
+import path from "path"
 class WorkerService {
     async getAllworkers() {
         try {
@@ -10,15 +11,17 @@ class WorkerService {
             throw new Error('Could not get workers');
         }
     }
-        async getAlladmin() {
-            try {
-                const workers = await Worker.find({rol:"admin"});
-                return workers;
-            } catch (err) {
-                console.error('Error getting workers', err);
-                throw new Error('Could not get workers');
-            }
+    async getAlladmin() {
+        try {
+            const workers = await Worker.find({
+                rol: "admin"
+            });
+            return workers;
+        } catch (err) {
+            console.error('Error getting workers', err);
+            throw new Error('Could not get workers');
         }
+    }
 
     async getworkerById(id) {
         try {
@@ -30,16 +33,56 @@ class WorkerService {
         }
     }
 
-    async createworker(data) {
+    async createworker(req) {
         try {
-            const worker = new Worker(data);
-            await Restaurant.findByIdAndUpdate(data.res_id, {
+
+            let {
+                username
+            } = req.body;
+            let {
+                file
+            } = req.files;
+
+            if (file.truncated) throw new Error('you must send max 50 mb file')
+            let types = file.name.split('.')
+            let type = types[types.length - 1]
+            const random = Math.floor(Math.random() * 9000 + 1000)
+            let userUploadusername = username + random + '.' + type
+            await file.mv(
+                path.join(
+                    process.cwd(),
+                    'public',
+                    'avatar',
+                    userUploadusername
+                )
+            )
+
+            req.body.userPhoto = userUploadusername
+            const worker = new Worker(req.body);
+            await Restaurant.findByIdAndUpdate(req.body.res_id, {
                 $push: {
                     workers: worker._id
                 }
             })
             await worker.save();
             return worker;
+        } catch (err) {
+            console.error('Error creating worker', err);
+            throw new Error('Could not create worker');
+        }
+    }
+
+    async isAdmin(data) {
+        try {
+            //   const worker = new Worker(data);
+
+            const admin = await Worker.findOne({
+                email: data.useremail,
+                password: data.userpassword,
+                rol: "admin"
+            });
+            return admin
+
         } catch (err) {
             console.error('Error creating worker', err);
             throw new Error('Could not create worker');
