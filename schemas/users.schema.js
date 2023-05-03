@@ -15,18 +15,8 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    salary: {
-        type: String,
-    },
-    workingTime: {
-        type: String,
-        required: true
-    },
     userPhoto: {
         type: String,
-    },
-    rol: {
-        type: String
     },
     res_id: {
         type: String,

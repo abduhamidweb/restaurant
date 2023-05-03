@@ -8,6 +8,7 @@ import bossRoutes from '../routes/boss.routes.js';
 import resturantRoutes from '../routes/restaurant.routes.js';
 import resoursceRoutes from '../routes/resource.routes.js';
 import usersRoutes from '../routes/users.routes.js';
+import workersRoutes from '../routes/workers.routes.js';
 // import postRoutes from '../routes/posts.routes.js';
 // import commentRoutes from '../routes/comments.routes.js';
 
@@ -38,6 +39,7 @@ app.use(express.json());
 // User routes
 app.use('/api', bossRoutes);
 app.use('/api', usersRoutes);
+app.use('/api', workersRoutes);
 app.use('/api', resturantRoutes);
 app.use('/api', resoursceRoutes);
 

@@ -25,7 +25,9 @@ class UserService {
         try {
             const user = new User(data);
             await Restaurant.findByIdAndUpdate(data.res_id, {
-                $push: user._id
+                $push: {
+                    users: user._id
+                }
             })
             await user.save();
             return user;

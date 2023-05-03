@@ -25,12 +25,3 @@ const bossSchema = new mongoose.Schema({
 
 export default mongoose.model('Boss', bossSchema);
 
-// const boss = new bosss({ 
-//     bossname: 'johnDoe',
-//     password: 'password123',
-//     email: 'johndoe@example.com'
-// });
-
-// boss.save()
-//     .then(() => console.log('boss saved to database'))
-//     .catch((err) => console.error(err));
