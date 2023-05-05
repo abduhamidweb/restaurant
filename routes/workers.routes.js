@@ -115,7 +115,7 @@ router.put('/worker/:id', async (req, res) => {
 
 router.delete('/worker/:id', async (req, res) => {
     try {
-        const user = await workerService.deleteUser(req.params.id);
+        const user = await workerService.deleteworker(req.params.id);
         if (user) {
             res.status(200).json(user);
         } else {

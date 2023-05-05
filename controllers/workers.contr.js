@@ -125,6 +125,7 @@ class WorkerService {
                 rol,
                 res_id,
             } = await Worker.findById(id);
+
             function isFile(filePath) {
                 try {
                     return fs.statSync(filePath).isFile()
@@ -181,7 +182,7 @@ class WorkerService {
 
     async deleteworker(id) {
         try {
-            const worker = await worker.findByIdAndDelete(id);
+            const worker = await Worker.findByIdAndDelete(id);
             return worker;
         } catch (err) {
             console.error('Error deleting worker', err);
