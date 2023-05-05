@@ -33,6 +33,10 @@ const restaurantSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Worker',
     }],
+    foods: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Food',
+    }],
 }, {
     timestamps: true
 });

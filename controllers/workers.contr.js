@@ -190,5 +190,4 @@ class WorkerService {
         }
     }
 }
-
-export default WorkerService
+export default WorkerService;
