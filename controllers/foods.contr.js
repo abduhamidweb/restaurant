@@ -1,4 +1,5 @@
 import Food from "../schemas/foods.schema.js";
+import Restaurant from './../schemas/restuarant.schema.js';
 class FoodController {
     // Create new food item
     static async createFoodItem(req, res) {
@@ -14,7 +15,13 @@ class FoodController {
                 res_id: req.body.res_id
             });
             const savedFoodItem = await foodItem.save();
+            await Restaurant.findByIdAndUpdate(req.body.res_id, {
+                $push: {
+                    foods: foodItem._id
+                }
+            })
             res.status(201).json(savedFoodItem);
+
         } catch (err) {
             res.status(400).json({
                 message: err.message
