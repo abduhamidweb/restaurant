@@ -32,7 +32,7 @@ router.get('/workeradmin', async (req, res) => {
 });
 router.get('/worker/:id', async (req, res) => {
     try {
-        const user = await workerService.getUserById(req.params.id);
+        const user = await workerService.getworkerById(req.params.id);
         if (user) {
             res.status(200).json(user);
         } else {
@@ -98,7 +98,7 @@ router.post('/register/worker', async (req, res) => {
 });
 router.put('/worker/:id', async (req, res) => {
     try {
-        const user = await workerService.updateUser(req.params.id, req.body);
+        const user = await workerService.updateworker(req.params.id, req);
         if (user) {
             res.status(200).json(user);
         } else {

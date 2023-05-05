@@ -9,37 +9,22 @@ import resturantRoutes from '../routes/restaurant.routes.js';
 import resoursceRoutes from '../routes/resource.routes.js';
 import usersRoutes from '../routes/users.routes.js';
 import workersRoutes from '../routes/workers.routes.js';
-// import postRoutes from '../routes/posts.routes.js';
-// import commentRoutes from '../routes/comments.routes.js';
-
 const PORT = process.env.PORT || 3000;
 const app = express();
-
 app.use(fileUpload({
     limits: {
         fileSize: 50 * 1024 * 1024
     }
 }));
-
 app.use(express.json());
 app.use(cors('*'));
-app.use(cors({
-    origin: '*'
-}));
+app.use(express.static("public"));
 
-// app.use(cors());
-// app.use(cors({
-//     origin: '*', // Tüm kaynaklara izin ver
-//     methods: 'GET, POST, PUT, DELETE', // İzin verilen HTTP yöntemleri
-//     allowedHeaders: 'Content-Type, Authorization', // İzin verilen HTTP başlıkları
-//     credentials: true // Kimlik doğrulaması gerektir
-// }));
-app.use(express.static("./public"));
 // app.engine("html", ejs.renderFile);
 // app.set("view engine", "html");
 // app.set(".html", path.join(process.cwd(), "views"));
 // app.use(bodyParser.json());
-app.use(express.static("./public"));
+// app.use(express.static("./public"));
 app.use(express.json());
 // User routes
 app.use('/api', bossRoutes);
