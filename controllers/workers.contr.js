@@ -49,7 +49,6 @@ class WorkerService {
             let {
                 file
             } = req.files;
-
             if (file.truncated) throw new Error('you must send max 50 mb file')
             let types = file.name.split('.')
             let type = types[types.length - 1]
@@ -62,7 +61,6 @@ class WorkerService {
                     userUploadusername
                 )
             )
-
             req.body.userPhoto = userUploadusername
             const worker = new Worker(req.body);
             await Restaurant.findByIdAndUpdate(req.body.res_id, {
@@ -77,7 +75,6 @@ class WorkerService {
             throw new Error('Could not create worker');
         }
     }
-
     async isAdmin(data) {
         try {
             //   const worker = new Worker(data);
@@ -179,7 +176,6 @@ class WorkerService {
             throw new Error('Could not update worker');
         }
     }
-
     async deleteworker(id) {
         try {
             const worker = await Worker.findByIdAndDelete(id);

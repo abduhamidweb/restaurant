@@ -1,28 +1,66 @@
 import Food from "../schemas/foods.schema.js";
 import Restaurant from './../schemas/restuarant.schema.js';
+import path from "path"
+
+function pathJoin(filename) {
+    const newPath = filename.split(' ').join('-');
+    return path.normalize(newPath);
+}
 class FoodController {
     // Create new food item
     static async createFoodItem(req, res) {
         try {
+            let {
+                name,
+                type,
+                calories,
+                price,
+                isAvailable,
+                description,
+                res_id,
+            } = req.body;
+            console.log(name,
+                type,
+                calories,
+                price,
+                isAvailable,
+                description,
+                res_id, );
+            let {
+                file
+            } = req.files;
+            if (file.truncated) throw new Error('you must send max 50 mb file')
+            let types = file.name.split('.')
+            let typeImg = types[types.length - 1]
+            let userUploadusername = pathJoin(name + '.' + typeImg)
+            await file.mv(
+                path.join(
+                    process.cwd(),
+                    'public',
+                    'imgs',
+                    userUploadusername
+                )
+            )
+            req.body.imgLink = userUploadusername;
             const foodItem = new Food({
-                name: req.body.name,
-                type: req.body.type,
-                calories: req.body.calories,
-                price: req.body.price,
-                isAvailable: req.body.isAvailable || true,
-                imgLink: req.body.imgLink,
-                description: req.body.description,
-                res_id: req.body.res_id
+                name,
+                type,
+                calories,
+                price,
+                isAvailable,
+                imgLink: userUploadusername,
+                description,
+                res_id,
             });
-            const savedFoodItem = await foodItem.save();
             await Restaurant.findByIdAndUpdate(req.body.res_id, {
                 $push: {
                     foods: foodItem._id
                 }
             })
-            res.status(201).json(savedFoodItem);
-
+            await foodItem.save();
+            res.status(201).json(foodItem);
         } catch (err) {
+            console.log('err :', err);
             res.status(400).json({
                 message: err.message
             });
