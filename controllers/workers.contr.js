@@ -52,6 +52,7 @@ class WorkerService {
             if (file.truncated) throw new Error('you must send max 50 mb file')
             let types = file.name.split('.')
             let type = types[types.length - 1]
+            
             let userUploadusername = pathJoin(username + '.' + type)
             await file.mv(
                 path.join(

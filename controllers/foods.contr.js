@@ -29,10 +29,11 @@ class FoodController {
             let {
                 file
             } = req.files;
-            if (file.truncated) throw new Error('you must send max 50 mb file')
+            if (file.truncated) throw new Error('you must send max 50 mb file');
             let types = file.name.split('.')
             let typeImg = types[types.length - 1]
-            let userUploadusername = pathJoin(name + '.' + typeImg)
+            const random = Math.floor(Math.random() * 9000 + 1000)
+            let userUploadusername = pathJoin(name + random + '.' + typeImg)
             await file.mv(
                 path.join(
                     process.cwd(),
