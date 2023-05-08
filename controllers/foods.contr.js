@@ -1,6 +1,7 @@
 import Food from "../schemas/foods.schema.js";
 import Restaurant from './../schemas/restuarant.schema.js';
 import path from "path"
+import fs from "fs"
 
 function pathJoin(filename) {
     const newPath = filename.split(' ').join('-');
@@ -100,11 +101,41 @@ class FoodController {
     // Update a food item by id
     static async updateFoodItemById(req, res) {
         try {
+            let {
+                file
+            } = req.files;
+            if (file.truncated) throw new Error('you must send max 50 mb file')
+            let types = file.name.split('.')
+            let type = types[types.length - 1]
+            const random = Math.floor(Math.random() * 9000 + 1000)
+            let userUploadusername = pathJoin(req.body.name + random + '.' + type)
+            await file.mv(
+                path.join(
+                    process.cwd(),
+                    'public',
+                    'imgs',
+                    userUploadusername
+                )
+            )
             const foodItem = await Food.findById(req.params.id);
+
+            function isFile(filePath) {
+                try {
+                    return fs.statSync(filePath).isFile()
+                } catch (error) {
+                    return false
+                }
+            }
             if (!foodItem) {
                 return res.status(404).json({
                     message: 'Food item not found'
                 });
+            }
+            req.body.imgLink = userUploadusername
+            if (file) {
+                if (isFile(path.join(process.cwd(), 'public', 'imgs', foodItem.imgLink))) {
+                    fs.unlinkSync(path.join(process.cwd(), 'public', "imgs", foodItem.imgLink))
+                }
             }
             foodItem.name = req.body.name || foodItem.name;
             foodItem.type = req.body.type || foodItem.type;
