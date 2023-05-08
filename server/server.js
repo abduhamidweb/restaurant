@@ -10,7 +10,8 @@ import resturantRoutes from '../routes/restaurant.routes.js';
 import resoursceRoutes from '../routes/resource.routes.js';
 import usersRoutes from '../routes/users.routes.js';
 import workersRoutes from '../routes/workers.routes.js';
-import foodRoutes from "../routes/foods.routes.js"
+import foodRoutes from "../routes/foods.routes.js";
+import zakazRoutes from "../routes/zakaz.routes.js"
 const PORT = process.env.PORT || 3000;
 const app = express();
 app.use(fileUpload({
@@ -36,6 +37,7 @@ app.use('/api', workersRoutes);
 app.use('/api', resturantRoutes);
 app.use('/api', resoursceRoutes);
 app.use('/api', foodRoutes);
+app.use('/api', zakazRoutes);
 
 // Post routes
 // app.use('/api', postRoutes);
