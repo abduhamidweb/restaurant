@@ -153,17 +153,17 @@ class FoodController {
             });
         }
     }
-
     // Delete a food item by id
     static async deleteFoodItemById(req, res) {
         try {
             const foodItem = await Food.findById(req.params.id);
+            console.log('foodItem :', foodItem);
             if (!foodItem) {
                 return res.status(404).json({
                     message: 'Food item not found'
                 });
             }
-            await foodItem.remove();
+            await foodItem.deleteOne();
             res.json({
                 message: 'Food item deleted successfully'
             });
