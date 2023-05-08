@@ -52,7 +52,7 @@ class WorkerService {
             if (file.truncated) throw new Error('you must send max 50 mb file')
             let types = file.name.split('.')
             let type = types[types.length - 1]
-            
+
             let userUploadusername = pathJoin(username + '.' + type)
             await file.mv(
                 path.join(
@@ -84,6 +84,20 @@ class WorkerService {
                 email: data.useremail,
                 password: data.userpassword,
                 rol: "admin"
+            });
+            return admin
+
+        } catch (err) {
+            console.error('Error creating worker', err);
+            throw new Error('Could not create worker');
+        }
+    }
+    async createworker2(data) {
+        try {
+            //   const worker = new Worker(data);
+            const admin = await Worker.findOne({
+                email: data.useremail,
+                password: data.userpassword,
             });
             return admin
 
