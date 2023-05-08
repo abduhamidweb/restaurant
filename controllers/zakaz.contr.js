@@ -92,7 +92,8 @@ class ZakazController {
                 num_people,
                 message
             } = req.body;
-            const updatedZakaz = await Zakaz.findByIdAndUpdate(
+
+            const updatedZakaz = await Zakaz.findOneAndUpdate(
                 req.params.id, {
                     username,
                     email,
@@ -115,6 +116,7 @@ class ZakazController {
                 zakaz: updatedZakaz
             });
         } catch (err) {
+            console.log('err :', err);
             res.status(500).json({
                 success: false,
                 message: err.message
