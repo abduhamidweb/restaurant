@@ -1,3 +1,4 @@
+import Restaurant from "../schemas/restuarant.schema.js";
 import Zakaz from "../schemas/zakaz.schema.js"
 
 class ZakazController {
@@ -11,7 +12,8 @@ class ZakazController {
                 date,
                 time,
                 num_people,
-                message
+                message,
+                res_id
             } = req.body;
             const newZakaz = new Zakaz({
                 username,
@@ -20,8 +22,14 @@ class ZakazController {
                 date,
                 time,
                 num_people,
-                message
+                message,
+                res_id
             });
+            await Restaurant.findByIdAndUpdate(req.body.res_id, {
+                $push: {
+                    zakaz: newZakaz._id
+                }
+            })
             const savedZakaz = await newZakaz.save();
             res.status(201).json({
                 success: true,
@@ -29,6 +37,7 @@ class ZakazController {
                 zakaz: savedZakaz
             });
         } catch (err) {
+            console.log('err :', err);
             res.status(500).json({
                 success: false,
                 message: err.message

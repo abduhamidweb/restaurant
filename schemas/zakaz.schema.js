@@ -1,4 +1,6 @@
-import mongoose from "mongoose";
+import mongoose, {
+    Types
+} from "mongoose";
 const {
     Schema
 } = mongoose;
@@ -17,11 +19,11 @@ const zakazSchema = new Schema({
         required: true
     },
     date: {
-        type: Date,
+        type: String,
         required: true
     },
     time: {
-        type: Number,
+        type: String,
         required: true
     },
     num_people: {
@@ -31,9 +33,12 @@ const zakazSchema = new Schema({
     message: {
         type: String,
         required: false
+    },
+    res_id: {
+        type: Types.ObjectId,
+        required: true,
+        ref: "Restaurant"
     }
 });
 
 export default mongoose.model('Zakaz', zakazSchema);
-
-

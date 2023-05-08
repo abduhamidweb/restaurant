@@ -37,6 +37,10 @@ const restaurantSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Food',
     }],
+    zakaz: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Zakaz',
+    }],
 }, {
     timestamps: true
 });
