@@ -1,4 +1,4 @@
-import hero from "../schemas/heros.schema.js";
+import hero from "../schemas/hero.schema.js";
 import Restaurant from './../schemas/restuarant.schema.js';
 import path from "path"
 import fs from "fs"

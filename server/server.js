@@ -13,7 +13,7 @@ import workersRoutes from '../routes/workers.routes.js';
 import foodRoutes from "../routes/foods.routes.js";
 import zakazRoutes from "../routes/zakaz.routes.js"
 import contactRoutes from "../routes/contact.routes.js"
-import HeroController from "../routes/contact.routes.js"
+import HeroController from "../routes/hero.routes.js"
 const PORT = process.env.PORT || 3000;
 const app = express();
 app.use(fileUpload({
