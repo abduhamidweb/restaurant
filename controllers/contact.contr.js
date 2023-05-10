@@ -31,7 +31,6 @@ class ContactController {
                 zakaz: savedZakaz
             });
         } catch (err) {
-            console.log('err :', err);
             res.status(500).json({
                 success: false,
                 message: err.message
