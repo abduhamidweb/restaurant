@@ -1,4 +1,4 @@
-import Food from "../schemas/foods.schema.js";
+import hero from "../schemas/heros.schema.js";
 import Restaurant from './../schemas/restuarant.schema.js';
 import path from "path"
 import fs from "fs"
@@ -23,7 +23,7 @@ class HeroController {
             let types = file.name.split('.')
             let typeImg = types[types.length - 1]
             const random = Math.floor(Math.random() * 9000 + 1000)
-            let userUploadusername = pathJoin(name + random + '.' + typeImg)
+            let userUploadusername = pathJoin(title + random + '.' + typeImg)
             await file.mv(
                 path.join(
                     process.cwd(),
@@ -33,19 +33,15 @@ class HeroController {
                 )
             )
             req.body.imgLink = userUploadusername;
-            const foodItem = new Food({
-                name,
-                type,
-                calories,
-                price,
-                isAvailable,
+            const foodItem = new hero({
+                title,
                 imgLink: userUploadusername,
                 description,
                 res_id,
             });
             await Restaurant.findByIdAndUpdate(req.body.res_id, {
                 $push: {
-                    foods: foodItem._id
+                    hero: foodItem._id
                 }
             })
             await foodItem.save();
@@ -61,7 +57,7 @@ class HeroController {
     // Get all food items
     static async getAllFoodItems(req, res) {
         try {
-            const foodItems = await Food.find();
+            const foodItems = await hero.find();
             res.json(foodItems);
         } catch (err) {
             res.status(500).json({
@@ -73,7 +69,7 @@ class HeroController {
     // Get single food item by id
     static async getFoodItemById(req, res) {
         try {
-            const foodItem = await Food.findById(req.params.id);
+            const foodItem = await hero.findById(req.params.id);
             if (!foodItem) {
                 return res.status(404).json({
                     message: 'Food item not found'
@@ -92,11 +88,12 @@ class HeroController {
             let {
                 file
             } = req.files;
+
             if (file.truncated) throw new Error('you must send max 50 mb file')
             let types = file.name.split('.')
             let type = types[types.length - 1]
             const random = Math.floor(Math.random() * 9000 + 1000)
-            let userUploadusername = pathJoin(req.body.name + random + '.' + type)
+            let userUploadusername = pathJoin(req.body.title + random + '.' + type)
             await file.mv(
                 path.join(
                     process.cwd(),
@@ -105,7 +102,7 @@ class HeroController {
                     userUploadusername
                 )
             )
-            const foodItem = await Food.findById(req.params.id);
+            const foodItem = await hero.findById(req.params.id);
 
             function isFile(filePath) {
                 try {
@@ -125,11 +122,7 @@ class HeroController {
                     fs.unlinkSync(path.join(process.cwd(), 'public', "imgs", foodItem.imgLink))
                 }
             }
-            foodItem.name = req.body.name || foodItem.name;
-            foodItem.type = req.body.type || foodItem.type;
-            foodItem.calories = req.body.calories || foodItem.calories;
-            foodItem.price = req.body.price || foodItem.price;
-            foodItem.isAvailable = req.body.isAvailable || foodItem.isAvailable;
+            foodItem.title = req.body.title || foodItem.title;
             foodItem.imgLink = req.body.imgLink || foodItem.imgLink;
             foodItem.description = req.body.description || foodItem.description;
             foodItem.res_id = req.body.res_id || foodItem.res_id;
@@ -144,7 +137,7 @@ class HeroController {
     // Delete a food item by id
     static async deleteFoodItemById(req, res) {
         try {
-            const foodItem = await Food.findById(req.params.id);
+            const foodItem = await hero.findById(req.params.id);
             if (!foodItem) {
                 return res.status(404).json({
                     message: 'Food item not found'
@@ -152,7 +145,7 @@ class HeroController {
             }
             await foodItem.deleteOne();
             res.json({
-                message: 'Food item deleted successfully'
+                message: 'Hero item deleted successfully'
             });
         } catch (err) {
             res.status(500).json({

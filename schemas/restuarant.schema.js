@@ -46,6 +46,10 @@ const restaurantSchema = new mongoose.Schema({
         ref: 'Contact',
     }],
 
+    hero: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Hero',
+    }],
 }, {
     timestamps: true
 });
