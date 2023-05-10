@@ -12,6 +12,7 @@ import usersRoutes from '../routes/users.routes.js';
 import workersRoutes from '../routes/workers.routes.js';
 import foodRoutes from "../routes/foods.routes.js";
 import zakazRoutes from "../routes/zakaz.routes.js"
+import contactRoutes from "../routes/contact.routes.js"
 const PORT = process.env.PORT || 3000;
 const app = express();
 app.use(fileUpload({
@@ -37,7 +38,9 @@ app.use('/api', workersRoutes);
 app.use('/api', resturantRoutes);
 app.use('/api', resoursceRoutes);
 app.use('/api', foodRoutes);
+
 app.use('/api', zakazRoutes);
+app.use('/api', contactRoutes);
 
 // Post routes
 // app.use('/api', postRoutes);
@@ -47,4 +50,4 @@ app.use('/api', zakazRoutes);
 
 app.listen(PORT, () => {
     console.log("Service listening on port " + PORT);
-});
+}); 

@@ -11,7 +11,11 @@ function pathJoin(filename) {
 class WorkerService {
     async getAllworkers() {
         try {
-            const workers = await Worker.find();
+            const workers = await Worker.find({
+                rol: {
+                    $ne: 'admin'
+                }
+            });
             return workers;
         } catch (err) {
             console.error('Error getting workers', err);
@@ -43,26 +47,6 @@ class WorkerService {
     async createworker(req) {
         try {
 
-            let {
-                username
-            } = req.body;
-            let {
-                file
-            } = req.files;
-            if (file.truncated) throw new Error('you must send max 50 mb file')
-            let types = file.name.split('.')
-            let type = types[types.length - 1]
-
-            let userUploadusername = pathJoin(username + '.' + type)
-            await file.mv(
-                path.join(
-                    process.cwd(),
-                    'public',
-                    'imgs',
-                    userUploadusername
-                )
-            )
-            req.body.userPhoto = userUploadusername
             const worker = new Worker(req.body);
             await Restaurant.findByIdAndUpdate(req.body.res_id, {
                 $push: {
@@ -100,7 +84,6 @@ class WorkerService {
                 password: data.userpassword,
             });
             return admin
-
         } catch (err) {
             console.error('Error creating worker', err);
             throw new Error('Could not create worker');

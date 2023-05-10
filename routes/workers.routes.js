@@ -55,7 +55,23 @@ router.post('/worker', async (req, res) => {
             token: JWT.SIGN({
                 id: worker._id
             }),
-            data: worker 
+            data: worker
+        });
+    } catch (err) {
+        res.status(500).json({
+            error: err.message
+        });
+    }
+});
+router.post('/worker/admin', async (req, res) => {
+    try {
+        const worker = await workerService.createworker(req);
+        res.status(201).json({
+            message: "admin created successfully",
+            token: JWT.SIGN({
+                id: worker._id
+            }),
+            data: worker
         });
     } catch (err) {
         res.status(500).json({
