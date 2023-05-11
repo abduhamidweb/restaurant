@@ -94,14 +94,14 @@ class HeroController {
             let type = types[types.length - 1]
             const random = Math.floor(Math.random() * 9000 + 1000)
             let userUploadusername = pathJoin(req.body.title + random + '.' + type)
-            await file.mv(
+           file ?  await file.mv(
                 path.join(
                     process.cwd(),
                     'public',
                     'imgs',
                     userUploadusername
                 )
-            )
+            ) : null
             const foodItem = await hero.findById(req.params.id);
 
             function isFile(filePath) {
