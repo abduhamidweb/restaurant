@@ -85,24 +85,15 @@ class HeroController {
     // Update a food item by id
     static async updateFoodItemById(req, res) {
         try {
-            let {
+            let
                 file
-            } = req.files;
-
-            if (file.truncated) throw new Error('you must send max 50 mb file')
-            let types = file.name.split('.')
-            let type = types[types.length - 1]
-            const random = Math.floor(Math.random() * 9000 + 1000)
-            let userUploadusername = pathJoin(req.body.title + random + '.' + type)
-           file ?  await file.mv(
-                path.join(
-                    process.cwd(),
-                    'public',
-                    'imgs',
-                    userUploadusername
-                )
-            ) : null
+           = req.files;
             const foodItem = await hero.findById(req.params.id);
+            if (!foodItem) {
+                return res.status(404).json({
+                    message: 'Food item not found'
+                });
+            }
 
             function isFile(filePath) {
                 try {
@@ -111,16 +102,24 @@ class HeroController {
                     return false
                 }
             }
-            if (!foodItem) {
-                return res.status(404).json({
-                    message: 'Food item not found'
-                });
-            }
-            req.body.imgLink = userUploadusername
             if (file) {
                 if (isFile(path.join(process.cwd(), 'public', 'imgs', foodItem.imgLink))) {
                     fs.unlinkSync(path.join(process.cwd(), 'public', "imgs", foodItem.imgLink))
                 }
+                if (file.truncated) throw new Error('you must send max 50 mb file')
+                let types = file.file.name.split('.')
+                let type = types[types.length - 1]
+                const random = Math.floor(Math.random() * 9000 + 1000)
+                let userUploadusername = pathJoin(req.body.title + random + '.' + type)
+                await file.mv(
+                    path.join(
+                        process.cwd(),
+                        'public',
+                        'imgs',
+                        userUploadusername
+                    )
+                )
+                req.body.imgLink = userUploadusername
             }
             foodItem.title = req.body.title || foodItem.title;
             foodItem.imgLink = req.body.imgLink || foodItem.imgLink;
