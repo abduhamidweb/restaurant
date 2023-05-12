@@ -22,10 +22,7 @@ const SpecialsSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    description: {
-        type: String,
-        required: true
-    },
+   
     res_id: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Restaurant',

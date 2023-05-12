@@ -16,6 +16,7 @@ import contactRoutes from "../routes/contact.routes.js"
 import Heroroutes from "../routes/hero.routes.js"
 import chooseRoutes from "../routes/choose.routes.js"
 import photoRoutes from "../routes/photos.routes.js"
+import specialsRoutes from "../routes/specials.routes.js"
 
 const PORT = process.env.PORT || 3000;
 const app = express();
@@ -47,6 +48,7 @@ app.use('/api', contactRoutes);
 app.use('/api', Heroroutes);
 app.use('/api', chooseRoutes);
 app.use('/api', photoRoutes);
+app.use('/api', specialsRoutes);
 
 // Post routes
 // app.use('/api', postRoutes);
