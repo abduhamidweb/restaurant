@@ -60,7 +60,7 @@ class chooseController {
             });
             res.status(200).json({
                 success: true,
-                zakaz
+                data: zakaz
             });
         } catch (err) {
             res.status(500).json({
