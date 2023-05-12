@@ -14,7 +14,7 @@ import foodRoutes from "../routes/foods.routes.js";
 import zakazRoutes from "../routes/zakaz.routes.js"
 import contactRoutes from "../routes/contact.routes.js"
 import Heroroutes from "../routes/hero.routes.js"
-import chooseRoutes from "../routes/hero.routes.js"
+import chooseRoutes from "../routes/choose.routes.js"
 
 const PORT = process.env.PORT || 3000;
 const app = express();
