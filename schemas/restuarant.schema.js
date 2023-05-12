@@ -40,11 +40,15 @@ const restaurantSchema = new mongoose.Schema({
     zakaz: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Zakaz',
-    }],
+    }], 
     contactUs: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Contact',
     }],
+     choose: [{
+         type: mongoose.Schema.Types.ObjectId,
+         ref: 'Choose',
+     }],
 
     hero: [{
         type: mongoose.Schema.Types.ObjectId,
