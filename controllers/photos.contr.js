@@ -21,7 +21,7 @@ class HeroController {
             let types = file.name.split('.')
             let typeImg = types[types.length - 1]
             const random = Math.floor(Math.random() * 9000 + 1000)
-            let userUploadusername = pathJoin(title + random + '.' + typeImg)
+            let userUploadusername = pathJoin(res_id + random + '.' + typeImg)
             await file.mv(
                 path.join(
                     process.cwd(),

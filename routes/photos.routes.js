@@ -4,17 +4,17 @@ import HeroController from "../controllers/photos.contr.js";
 
 
 // CREATE
-router.post('/hero', HeroController.createFoodItem);
+router.post('/photo', HeroController.createFoodItem);
 
 // READ ALL
-router.get('/hero', HeroController.getAllFoodItems);
+router.get('/photo', HeroController.getAllFoodItems);
 
 // READ ONE
-router.get('/hero/:id', HeroController.getFoodItemById);
+router.get('/photo/:id', HeroController.getFoodItemById);
 
 // UPDATE
-router.put('/hero/:id', HeroController.updateFoodItemById);
+router.put('/photo/:id', HeroController.updateFoodItemById);
 
 // DELETE
-router.delete('/hero/:id', HeroController.deleteFoodItemById);
+router.delete('/photo/:id', HeroController.deleteFoodItemById);
 export default router;
