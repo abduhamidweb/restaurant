@@ -15,6 +15,7 @@ import zakazRoutes from "../routes/zakaz.routes.js"
 import contactRoutes from "../routes/contact.routes.js"
 import Heroroutes from "../routes/hero.routes.js"
 import chooseRoutes from "../routes/choose.routes.js"
+import photoRoutes from "../routes/photos.routes.js"
 
 const PORT = process.env.PORT || 3000;
 const app = express();
@@ -25,7 +26,7 @@ app.use(fileUpload({
 }));
 
 
-app.use(express.json()); 
+app.use(express.json());
 app.use(cors('*'));
 app.use(express.static(path.join(process.cwd(), "public")));
 // app.engine("html", ejs.renderFile);
@@ -41,11 +42,11 @@ app.use('/api', workersRoutes);
 app.use('/api', resturantRoutes);
 app.use('/api', resoursceRoutes);
 app.use('/api', foodRoutes);
-
 app.use('/api', zakazRoutes);
 app.use('/api', contactRoutes);
 app.use('/api', Heroroutes);
 app.use('/api', chooseRoutes);
+app.use('/api', photoRoutes);
 
 // Post routes
 // app.use('/api', postRoutes);
@@ -55,4 +56,4 @@ app.use('/api', chooseRoutes);
 
 app.listen(PORT, () => {
     console.log("Service listening on port " + PORT);
-}); 
+});

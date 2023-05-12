@@ -33,7 +33,7 @@ class RestaurantController {
     // Get a single restaurant by ID
     async findOne(req, res) {
         try {
-            const restaurant = await Restaurant.findById(req.params.id).populate('resource').populate("workers").populate("users").populate('foods').populate('zakaz').populate('contactUs').populate('hero').populate('choose');
+            const restaurant = await Restaurant.findById(req.params.id).populate('resource').populate("workers").populate("users").populate('foods').populate('zakaz').populate('contactUs').populate('hero').populate('choose').populate('photos');
             if (!restaurant) {
                 return res.status(404).send();
             }
