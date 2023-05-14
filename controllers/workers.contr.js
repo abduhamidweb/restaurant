@@ -52,7 +52,6 @@ class WorkerService {
             let {
                 file
             } = req.files;
-
             if (file.truncated) throw new Error('you must send max 50 mb file')
             let types = file.name.split('.')
             let type = types[types.length - 1]
@@ -100,10 +99,10 @@ class WorkerService {
     }
     async createworker2(data) {
         try {
-            //   const worker = new Worker(data);
+            // const worker = new Worker(data);
             const admin = await Worker.findOne({
-                email: data.useremail,
-                password: data.userpassword,
+                email: data.body.useremail,
+                password: data.body.userpassword,
             });
             return admin
         } catch (err) {
@@ -167,7 +166,7 @@ class WorkerService {
             // console.log('username :', username);
             if (file) {
                 if (isFile(path.join(process.cwd(), 'public', 'imgs', userPhoto ? userPhoto : "oke"))) {
-                    fs.unlinkSync(path.join(process.cwd(), 'public', "imgs", userPhoto)) 
+                    fs.unlinkSync(path.join(process.cwd(), 'public', "imgs", userPhoto))
                 }
                 await file.mv(
                     path.join(

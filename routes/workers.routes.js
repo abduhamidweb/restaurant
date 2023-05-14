@@ -65,7 +65,7 @@ router.post('/worker', async (req, res) => {
 });
 router.post('/worker/admin', async (req, res) => {
     try {
-        const worker = await workerService.createworker(req);
+        const worker = await workerService.createworker2(req);
         res.status(201).json({
             message: "admin created successfully",
             token: JWT.SIGN({
