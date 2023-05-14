@@ -39,7 +39,6 @@ class eventContr {
             req.body.imgLink = userUploadusername;
             const foodItem = new Food({
                 imgLink: userUploadusername,
-                description,
                 title,
                 price,
                 desc_short,
