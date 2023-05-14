@@ -24,6 +24,7 @@ class HeroController {
             let typeImg = types[types.length - 1]
             const random = Math.floor(Math.random() * 9000 + 1000)
             let userUploadusername = pathJoin(title + random + '.' + typeImg)
+            console.log('userUploadusername :', userUploadusername);
             await file.mv(
                 path.join(
                     process.cwd(),
@@ -111,6 +112,9 @@ class HeroController {
                 let type = types[types.length - 1]
                 const random = Math.floor(Math.random() * 9000 + 1000)
                 let userUploadusername = pathJoin(req.body.title + random + '.' + type)
+                console.log('userUploadusername :', userUploadusername);
+                req.body.imgLink = userUploadusername
+                console.log('req.body.imgLink :', req.body.imgLink);
                 await file.mv(
                     path.join(
                         process.cwd(),
@@ -119,10 +123,11 @@ class HeroController {
                         userUploadusername
                     )
                 )
-                req.body.imgLink = userUploadusername
             }
             foodItem.title = req.body.title || foodItem.title;
-            foodItem.imgLink = req.body.imgLink || foodItem.imgLink;
+            foodItem.imgLink = req.body.imgLink || foodItem.imgLink; 
+            console.log('foodItem :', foodItem);
+            console.log('req.body.imgLink :', req.body.imgLink);
             foodItem.description = req.body.description || foodItem.description;
             foodItem.res_id = req.body.res_id || foodItem.res_id;
             const updatedFoodItem = await foodItem.save();

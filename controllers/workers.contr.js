@@ -46,7 +46,29 @@ class WorkerService {
 
     async createworker(req) {
         try {
+            let {
+                username
+            } = req.body;
+            let {
+                file
+            } = req.files;
 
+            if (file.truncated) throw new Error('you must send max 50 mb file')
+            let types = file.name.split('.')
+            let type = types[types.length - 1]
+            const random = Math.floor(Math.random() * 9000 + 1000)
+            let userUploadusername = pathJoin(username + '' + random + '.' + type)
+
+            await file.mv(
+                path.join(
+                    process.cwd(),
+                    'public',
+                    'imgs',
+                    userUploadusername
+                )
+            )
+
+            req.body.userPhoto = userUploadusername
             const worker = new Worker(req.body);
             await Restaurant.findByIdAndUpdate(req.body.res_id, {
                 $push: {
@@ -114,8 +136,8 @@ class WorkerService {
                 password,
                 userInfo,
                 workingTime,
-                userPhoto,
                 userPhone,
+                userPhoto,
                 salary,
                 rol,
                 res_id,
@@ -128,31 +150,35 @@ class WorkerService {
                     return false
                 }
             }
-            if (isFile(path.join(process.cwd(), 'public', 'imgs', userPhoto))) {
-                fs.unlinkSync(path.join(process.cwd(), 'public', "imgs", userPhoto))
-            }
+            // if (isFile(path.join(process.cwd(), 'public', 'imgs', userPhoto))) {
+            //     fs.unlinkSync(path.join(process.cwd(), 'public', "imgs", userPhoto))
+            // }
             let {
                 file
             } = req.files;
             if (file.truncated) throw new Error('you must send max 50 mb file');
             let types = file.name.split('.');
             let type = types[types.length - 1]
-            let userUploadusername = pathJoin(username + '.' + type)
-            if (file) {
-                if (isFile(path.join(process.cwd(), 'public', 'imgs', userPhoto))) {
-                    fs.unlinkSync(path.join(process.cwd(), 'public', "imgs", userPhoto))
-                } else {
-                    await file.mv(
-                        path.join(
-                            process.cwd(),
-                            'public',
-                            'imgs',
-                            userUploadusername
-                        )
-                    )
-                }
-            }
+            const random = Math.floor(Math.random() * 9000 + 1000)
+
+            let userUploadusername = pathJoin(username + random + '.' + type)
             req.body.userPhoto = userUploadusername;
+            // console.log('username+\'\' + random + \'.\' + type :', username + '' + random + '.' + type);
+            // console.log('username :', username);
+            if (file) {
+                if (isFile(path.join(process.cwd(), 'public', 'imgs', userPhoto ? userPhoto : "oke"))) {
+                    fs.unlinkSync(path.join(process.cwd(), 'public', "imgs", userPhoto)) 
+                }
+                await file.mv(
+                    path.join(
+                        process.cwd(),
+                        'public',
+                        'imgs',
+                        userUploadusername
+                    )
+                )
+
+            }
             let update = req.body;
             const worker = await Worker.findByIdAndUpdate(id, {
                 username: update.username ? update.username : username,
@@ -168,7 +194,8 @@ class WorkerService {
             }, {
                 new: true
             });
-            return worker;
+            await worker.save();
+            return worker
         } catch (err) {
             console.error('Error updating worker', err);
             throw new Error('Could not update worker');

@@ -93,7 +93,7 @@ class ZakazController {
                 message
             } = req.body;
 
-            const updatedZakaz = await Zakaz.findOneAndUpdate(
+            const updatedZakaz = await Zakaz.findByIdAndUpdate(
                 req.params.id, {
                     username,
                     email,
@@ -121,7 +121,7 @@ class ZakazController {
                 success: false,
                 message: err.message
             });
-        }
+        } 
     }
 
     // DELETE (D in CRUD)

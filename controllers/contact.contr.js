@@ -83,7 +83,7 @@ class ContactController {
                 message
             } = req.body;
 
-            const updatedZakaz = await contact.findOneAndUpdate(
+            const updatedZakaz = await contact.findByIdAndUpdate(
                 req.params.id, {
                     username,
                     email,

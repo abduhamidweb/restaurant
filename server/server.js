@@ -1,14 +1,14 @@
 import express from "express";
 import path from "path";
-import "../utils/mongo.js";
+import  "../utils/mongo.js";
 import dotenv from "dotenv";
 import fileUpload from "express-fileupload";
-dotenv.config();
+dotenv.config(); 
 import cors from "cors";
 import bossRoutes from '../routes/boss.routes.js';
 import resturantRoutes from '../routes/restaurant.routes.js';
 import resoursceRoutes from '../routes/resource.routes.js';
-import usersRoutes from '../routes/users.routes.js';
+import usersRoutes from '../routes/users.routes.js'; 
 import workersRoutes from '../routes/workers.routes.js';
 import foodRoutes from "../routes/foods.routes.js";
 import zakazRoutes from "../routes/zakaz.routes.js"

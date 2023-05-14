@@ -20,13 +20,7 @@ class FoodController {
                 description,
                 res_id,
             } = req.body;
-            console.log(name,
-                type,
-                calories,
-                price,
-                isAvailable,
-                description,
-                res_id, );
+          
             let {
                 file
             } = req.files;

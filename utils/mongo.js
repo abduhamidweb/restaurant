@@ -3,6 +3,40 @@ mongoose.connect("mongodb+srv://abduhamidbotirovweb:abduhamidjon707@cluster0.ab9
   console.log("connection");
 });
 
+// import mongoose from "mongoose";
+
+// export function connectToDatabase() {
+//   mongoose.connect('mongodb://localhost/restaurant', {
+//     useNewUrlParser: true,
+//     useUnifiedTopology: true
+//   });
+
+//   const db = mongoose.connection;
+
+//   db.on('error', console.error.bind(console, 'Ulanishda xatolik yuz berdi:'));
+//   db.once('open', function () {
+//     console.log("MongoDB-serverga muvaffaqiyatli ulanildi!");
+//   });
+// }
+// import mongodb from "mongodb";
+
+// const {
+//   MongoClient
+// } = mongodb;
+// !(async function () {
+//   const connect = new MongoClient("mongodb://127.0.0.1:27017");
+//   const client = await connect.connect();
+//   const db = await client.db("oks");
+//   const users = await db.collection("ssacwe");
+//   console.log(await users.find().toArray());
+//   console.log(await users.insertOne({
+//     age: 25,
+//     price: 16000
+//   }));
+// })();
+
+
+
 // users.
 // find() 
 //   .where("sport")

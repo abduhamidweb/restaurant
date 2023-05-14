@@ -75,28 +75,24 @@ class chooseController {
         try {
             const {
                 title,
-                message
+                message,
+                res_id
             } = req.body;
-
-            const updatedZakaz = await Zakaz.findOneAndUpdate(
-                req.params.id, {
-                    title,
-                    message
-                }, {
-                    new: true
-                } // bu parametr bilan yangilangan zakazni qaytaradi
+            let id = req.params.id
+            const updatedZakaz = await Zakaz.findByIdAndUpdate(
+                id, {
+                    title: title,
+                    message: message,
+                    res_id: res_id
+                }
             );
-            if (!updatedZakaz) return res.status(404).json({
-                success: false,
-                message: 'Zakaz topilmadi'
-            });
+            await updatedZakaz.save();
             res.status(200).json({
                 success: true,
                 message: 'choose',
-                zakaz: updatedZakaz
+                data: updatedZakaz
             });
         } catch (err) {
-            console.log('err :', err);
             res.status(500).json({
                 success: false,
                 message: err.message
