@@ -98,8 +98,10 @@ class eventContr {
             if (file.truncated) throw new Error('you must send max 50 mb file')
             let types = file.name.split('.')
             let type = types[types.length - 1]
+            console.log(req.body);
             const random = Math.floor(Math.random() * 9000 + 1000)
             let userUploadusername = pathJoin(req.body.title + random + '.' + type)
+            console.log('userUploadusername :', userUploadusername);
             await file.mv(
                 path.join(
                     process.cwd(),
@@ -128,11 +130,10 @@ class eventContr {
                     fs.unlinkSync(path.join(process.cwd(), 'public', "imgs", foodItem.imgLink))
                 }
             }
-            foodItem.name = req.body.name || foodItem.name;
-            foodItem.type = req.body.type || foodItem.type;
-            foodItem.calories = req.body.calories || foodItem.calories;
+            foodItem.title = req.body.title || foodItem.title;
             foodItem.price = req.body.price || foodItem.price;
-            foodItem.isAvailable = req.body.isAvailable || foodItem.isAvailable;
+            foodItem.desc_long = req.body.desc_long || foodItem.desc_long;
+            foodItem.desc_short = req.body.desc_short || foodItem.desc_short;
             foodItem.imgLink = req.body.imgLink || foodItem.imgLink;
             foodItem.description = req.body.description || foodItem.description;
             foodItem.res_id = req.body.res_id || foodItem.res_id;
