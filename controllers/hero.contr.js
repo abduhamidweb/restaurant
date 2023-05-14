@@ -87,8 +87,7 @@ class HeroController {
     static async updateFoodItemById(req, res) {
         try {
             let
-                file
-           = req.files;
+                file = req.files;
             const foodItem = await hero.findById(req.params.id);
             if (!foodItem) {
                 return res.status(404).json({
@@ -104,6 +103,7 @@ class HeroController {
                 }
             }
             if (file) {
+                console.log('foodItem.imgLink :', foodItem.imgLink);
                 if (isFile(path.join(process.cwd(), 'public', 'imgs', foodItem.imgLink))) {
                     fs.unlinkSync(path.join(process.cwd(), 'public', "imgs", foodItem.imgLink))
                 }
@@ -112,10 +112,8 @@ class HeroController {
                 let type = types[types.length - 1]
                 const random = Math.floor(Math.random() * 9000 + 1000)
                 let userUploadusername = pathJoin(req.body.title + random + '.' + type)
-                console.log('userUploadusername :', userUploadusername);
                 req.body.imgLink = userUploadusername
-                console.log('req.body.imgLink :', req.body.imgLink);
-                await file.mv(
+                await file.file.mv(
                     path.join(
                         process.cwd(),
                         'public',
@@ -123,16 +121,15 @@ class HeroController {
                         userUploadusername
                     )
                 )
+                foodItem.imgLink = req.body.imgLink || foodItem.imgLink;
             }
             foodItem.title = req.body.title || foodItem.title;
-            foodItem.imgLink = req.body.imgLink || foodItem.imgLink; 
-            console.log('foodItem :', foodItem);
-            console.log('req.body.imgLink :', req.body.imgLink);
             foodItem.description = req.body.description || foodItem.description;
             foodItem.res_id = req.body.res_id || foodItem.res_id;
             const updatedFoodItem = await foodItem.save();
             res.json(updatedFoodItem);
         } catch (err) {
+            console.log('err :', err);
             res.status(400).json({
                 message: err.message
             });
