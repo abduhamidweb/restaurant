@@ -55,7 +55,7 @@ class FoodController {
         } catch (err) {
             console.log('err :', err);
             res.status(400).json({
-                message: err.message
+                message: err.message 
             });
         }
     }
