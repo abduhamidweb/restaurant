@@ -16,7 +16,13 @@ const restaurantSchema = new mongoose.Schema({
     },
     contact: {
         type: String,
-        trim: true
+        validate: {
+            validator: (value) => {
+                const regex = /^\+998\d{9}$/;
+                return regex.test(value);
+            },
+            message: 'Telefon raqami noto‘g‘ri formatda yuborilgan.'
+        }
     },
     rest_img: {
         type: String,
@@ -58,15 +64,15 @@ const restaurantSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Photo',
     }],
-     events: [{
-         type: mongoose.Schema.Types.ObjectId,
-         ref: 'Event',
+    events: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Event',
     }],
-      space: [{
-          type: mongoose.Schema.Types.ObjectId,
-          ref: 'Specials',
-      }],
-    
+    space: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Specials',
+    }],
+
 }, {
     timestamps: true
 });

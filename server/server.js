@@ -19,7 +19,6 @@ import chooseRoutes from "../routes/choose.routes.js"
 import photoRoutes from "../routes/photos.routes.js"
 import specialsRoutes from "../routes/specials.routes.js"
 import eventsRoutes from "../routes/events.routes.js"
-
 const PORT = process.env.PORT || 3000;
 const app = express();
 app.use(fileUpload({
@@ -27,8 +26,6 @@ app.use(fileUpload({
         fileSize: 50 * 1024 * 1024
     }
 }));
-
-
 app.use(express.json());
 app.use(cors('*'));
 app.use(express.static(path.join(process.cwd(), "public")));
