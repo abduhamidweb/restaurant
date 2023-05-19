@@ -16,7 +16,6 @@ class FoodController {
                 tap_type,
                 short_desc,
                 long_desc,
-                imgLink,
                 res_id,
             } = req.body;
             let {
@@ -35,19 +34,19 @@ class FoodController {
                     'imgs',
                     userUploadusername
                 )
-            )
+            );
             req.body.imgLink = userUploadusername;
             const foodItem = new Food({
                 name,
                 tap_type,
                 short_desc,
                 long_desc,
-                imgLink,
+                imgLink: req.body.imgLink,
                 res_id,
             });
             await Restaurant.findByIdAndUpdate(req.body.res_id, {
                 $push: {
-                    foods: foodItem._id
+                    space: foodItem._id
                 }
             })
             await foodItem.save();
@@ -55,7 +54,7 @@ class FoodController {
         } catch (err) {
             console.log('err :', err);
             res.status(400).json({
-                message: err.message 
+                message: err.message
             });
         }
     }

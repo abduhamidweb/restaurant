@@ -5,10 +5,8 @@ import WorkerService from './../controllers/workers.contr.js';
 import {
     JWT
 } from "../utils/jwt.js";
-
 // Create an instance of the workerService class
 const workerService = new WorkerService();
-
 // Define routes for the worker API
 router.get('/worker', async (req, res) => {
     try {
@@ -144,7 +142,22 @@ router.put('/worker/:id', async (req, res) => {
         });
     }
 });
-
+router.put('/workeradmin/:id', async (req, res) => {
+    try {
+        const user = await workerService.updateworker2(req.params.id, req);
+        if (user) {
+            res.status(200).json(user);
+        } else {
+            res.status(404).json({
+                error: 'User not found'
+            });
+        }
+    } catch (err) {
+        res.status(500).json({
+            error: err.message
+        });
+    }
+});
 router.delete('/worker/:id', async (req, res) => {
     try {
         const user = await workerService.deleteworker(req.params.id);

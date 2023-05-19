@@ -36,7 +36,7 @@ class RestaurantController {
             const restaurant = await Restaurant.findById(req.params.id).
             populate('resource').populate("workers").populate("users").populate('foods').
             populate('zakaz').populate('contactUs').populate('hero').populate('choose').
-            populate('photos').populate('events');
+            populate('photos').populate('events').populate('space');
             if (!restaurant) {
                 return res.status(404).send();
             }
@@ -51,7 +51,6 @@ class RestaurantController {
         const updates = Object.keys(req.body);
         const allowedUpdates = ['rest_name', 'rest_year', 'description', 'contact', 'rest_img'];
         const isValidOperation = updates.every(update => allowedUpdates.includes(update));
-
         if (!isValidOperation) {
             return res.status(400).send({
                 error: 'Invalid updates!'

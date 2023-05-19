@@ -61,7 +61,12 @@ const restaurantSchema = new mongoose.Schema({
      events: [{
          type: mongoose.Schema.Types.ObjectId,
          ref: 'Event',
-     }], 
+    }],
+      space: [{
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'Specials',
+      }],
+    
 }, {
     timestamps: true
 });

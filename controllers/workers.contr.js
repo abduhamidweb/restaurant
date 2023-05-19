@@ -202,6 +202,25 @@ class WorkerService {
             throw new Error('Could not update worker');
         }
     }
+    async updateworker2(id, req) {
+        try {
+            const {
+                _id,
+                email,
+            } = await Worker.findById(id);
+            let update = req.body;
+            const worker = await Worker.findByIdAndUpdate(id, {
+                email: update.email ? update.email : email,
+            }, {
+                new: true
+            });
+            await worker.save();
+            return worker
+        } catch (err) {
+            console.error('Error updating worker', err);
+            throw new Error('Could not update worker');
+        }
+    }
     async deleteworker(id) {
         try {
             const worker = await Worker.findByIdAndDelete(id);

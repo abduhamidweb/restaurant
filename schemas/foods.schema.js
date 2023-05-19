@@ -7,7 +7,7 @@ const foodSchema = new mongoose.Schema({
         required: true
     },
     type: {
-        type: String,
+        type: String, 
         enum: ['starters', 'salads', 'specialty'],
         required: true
     },

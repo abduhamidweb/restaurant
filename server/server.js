@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import fileUpload from "express-fileupload";
 dotenv.config();
 import cors from "cors";
+import errorMiddleware from "../middleware/errorHandler.js";
 import bossRoutes from '../routes/boss.routes.js';
 import resturantRoutes from '../routes/restaurant.routes.js';
 import resoursceRoutes from '../routes/resource.routes.js';
@@ -50,7 +51,8 @@ app.use('/api', Heroroutes);
 app.use('/api', chooseRoutes);
 app.use('/api', photoRoutes);
 app.use('/api', specialsRoutes);
-app.use('/api', eventsRoutes)
+app.use('/api', eventsRoutes);
+app.use(errorMiddleware)
 // Post routes
 // app.use('/api', postRoutes);
 
