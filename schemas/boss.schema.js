@@ -24,4 +24,3 @@ const bossSchema = new mongoose.Schema({
 });
 
 export default mongoose.model('Boss', bossSchema);
-

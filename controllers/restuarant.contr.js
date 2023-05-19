@@ -67,7 +67,10 @@ class RestaurantController {
             if (!restaurant) {
                 return res.status(404).send();
             }
-            res.send(restaurant);
+            res.send({
+                data: restaurant,
+                success: "ok",
+            });
         } catch (error) {
             res.status(400).send(error);
         }

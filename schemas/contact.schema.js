@@ -4,7 +4,7 @@ import mongoose, {
 const {
     Schema
 } = mongoose;
-import Joi from "joi";
+
 const ContactSchema = new Schema({
     username: {
         type: String,
@@ -12,11 +12,6 @@ const ContactSchema = new Schema({
     },
     email: {
         type: String,
-        unique: true,
-        validate: {
-            validator: (value) => Joi.string().email().required().validate(value).error === null,
-            message: 'Email maydoni noto‘g‘ri formatda yuborilgan.'
-        },
         required: true
     },
     subject: {

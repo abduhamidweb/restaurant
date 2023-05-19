@@ -8,30 +8,15 @@ const userSchema = new mongoose.Schema({
     },
     email: {
         type: String,
-        unique: true,
-        validate: {
-            validator: (value) => Joi.string().email().required().validate(value).error === null,
-            message: 'Email maydoni noto‘g‘ri formatda yuborilgan.'
-        },
-        required: true
+        required: true,
+        unique: true
     },
     password: {
         type: String,
-        required: true,
-        validate: {
-            validator: (value) => Joi.string().min(6).required().validate(value).error === null,
-            message: 'Parol kamida 6 belgidan iborat bo‘lishi kerak.'
-        }
+        required: true
     },
-    userPhone: {
+    userPhoto: {
         type: String,
-        validate: {
-            validator: (value) => {
-                const regex = /^\+998\d{9}$/;
-                return regex.test(value);
-            },
-            message: 'Telefon raqami noto‘g‘ri formatda yuborilgan.'
-        }
     },
     res_id: {
         type: String,
