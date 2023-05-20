@@ -54,8 +54,7 @@ class HeroController {
             });
         }
     }
-
-    // Get all food items
+    // Get all food items 
     static async getAllFoodItems(req, res) {
         try {
             const foodItems = await hero.find();
@@ -66,7 +65,6 @@ class HeroController {
             });
         }
     }
-
     // Get single food item by id
     static async getFoodItemById(req, res) {
         try {

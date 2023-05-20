@@ -55,9 +55,8 @@ class WorkerService {
             if (file.truncated) throw new Error('you must send max 50 mb file')
             let types = file.name.split('.')
             let type = types[types.length - 1]
-            const random = Math.floor(Math.random() * 9000 + 1000)
+            const random = Math.floor(Math.random() * 9000 + 1000);
             let userUploadusername = pathJoin(username + '' + random + '.' + type)
-
             await file.mv(
                 path.join(
                     process.cwd(),
@@ -66,7 +65,6 @@ class WorkerService {
                     userUploadusername
                 )
             )
-
             req.body.userPhoto = userUploadusername
             const worker = new Worker(req.body);
             await Restaurant.findByIdAndUpdate(req.body.res_id, {
@@ -83,15 +81,12 @@ class WorkerService {
     }
     async isAdmin(data) {
         try {
-            //   const worker = new Worker(data);
-
             const admin = await Worker.findOne({
                 email: data.useremail,
                 password: data.userpassword,
                 rol: "admin"
             });
             return admin
-
         } catch (err) {
             console.error('Error creating worker', err);
             throw new Error('Could not create worker');
@@ -99,12 +94,6 @@ class WorkerService {
     }
     async createworker2(data) {
         try {
-            console.log(data);
-            let isWorker = await Worker.findOne({
-                email: data.useremail,
-                password: data.userpassword
-            });
-            data.res_id = isWorker.res_id
             const worker = new Worker(data);
             await worker.save();
             return worker;
@@ -115,14 +104,11 @@ class WorkerService {
     }
     async registerworker(data) {
         try {
-            const worker = await worker.find({
-                email: data.workeremail,
-                password: data.workerpassword,
-                rol: "admin"
+            const worker = await Worker.findOne({
+                email: data.useremail,
+                password: data.userpassword,
             });
-            if (worker.length > 0) return worker;
-            else return "Siz admin emasizz"
-            // return worker;
+          return worker;
         } catch (err) {
             console.error('Error getting worker', err);
             throw new Error('Could not get worker');

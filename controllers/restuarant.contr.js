@@ -36,13 +36,14 @@ class RestaurantController {
             const restaurant = await Restaurant.findById(req.params.id).
             populate('resource').populate("workers").populate("users").populate('foods').
             populate('zakaz').populate('contactUs').populate('hero').populate('choose').
-            populate('photos').populate('events').populate('space');
+                populate('photos').populate('events').populate('space');
+            console.log('req.params.id :', req.params.id);
             if (!restaurant) {
                 return res.status(404).send();
             }
             res.send(restaurant);
         } catch (error) {
-            res.status(500).send(error);
+            res.status(500).send(error); 
         }
     }
 
