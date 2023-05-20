@@ -99,14 +99,15 @@ class WorkerService {
     }
     async createworker2(data) {
         try {
-            const worker = new Worker(data.body);
+            console.log(data);
+            let isWorker = await Worker.findOne({
+                email: data.useremail,
+                password: data.userpassword
+            });
+            data.res_id = isWorker.res_id
+            const worker = new Worker(data);
             await worker.save();
             return worker;
-            // const admin = await Worker.findOne({
-            //     email: data.body.useremail,
-            //     password: data.body.userpassword,
-            // });
-            // return admin
         } catch (err) {
             console.error('Error creating worker', err);
             throw new Error('Could not create worker');
