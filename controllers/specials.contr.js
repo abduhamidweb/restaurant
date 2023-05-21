@@ -7,6 +7,14 @@ function pathJoin(filename) {
     const newPath = filename.split(' ').join('-');
     return path.normalize(newPath);
 }
+
+function isFile(filePath) {
+    try {
+        return fs.statSync(filePath).isFile()
+    } catch (error) {
+        return false
+    }
+}
 class FoodController {
     // Create new food item
     static async createFoodItem(req, res) {
@@ -91,50 +99,57 @@ class FoodController {
     // Update a food item by id
     static async updateFoodItemById(req, res) {
         try {
-            let {
-                file
-            } = req.files;
-            if (file.truncated) throw new Error('you must send max 50 mb file')
-            let types = file.name.split('.')
-            let type = types[types.length - 1]
-            const random = Math.floor(Math.random() * 9000 + 1000)
-            let userUploadusername = pathJoin(req.body.name + random + '.' + type)
-            await file.mv(
-                path.join(
-                    process.cwd(),
-                    'public',
-                    'imgs',
-                    userUploadusername
+            if (req.files) {
+                let {
+                    file
+                } = req.files;
+                if (file.truncated) throw new Error('you must send max 50 mb file')
+                let types = file.name.split('.')
+                let type = types[types.length - 1]
+                const random = Math.floor(Math.random() * 9000 + 1000)
+                let userUploadusername = pathJoin(req.body.name + random + '.' + type)
+                await file.mv(
+                    path.join(
+                        process.cwd(),
+                        'public',
+                        'imgs',
+                        userUploadusername
+                    )
                 )
-            )
-            const foodItem = await Food.findById(req.params.id);
-
-            function isFile(filePath) {
-                try {
-                    return fs.statSync(filePath).isFile()
-                } catch (error) {
-                    return false
+                const foodItem = await Food.findById(req.params.id);
+                if (!foodItem) {
+                    return res.status(404).json({
+                        message: 'Food item not found'
+                    });
                 }
-            }
-            if (!foodItem) {
-                return res.status(404).json({
-                    message: 'Food item not found'
-                });
-            }
-            req.body.imgLink = userUploadusername
-            if (file) {
+                req.body.imgLink = userUploadusername
                 if (isFile(path.join(process.cwd(), 'public', 'imgs', foodItem.imgLink))) {
                     fs.unlinkSync(path.join(process.cwd(), 'public', "imgs", foodItem.imgLink))
                 }
+                foodItem.name = req.body.name || foodItem.name;
+                foodItem.tap_type = req.body.tap_type || foodItem.tap_type;
+                foodItem.short_desc = req.body.short_desc || foodItem.short_desc;
+                foodItem.long_desc = req.body.long_desc || foodItem.long_desc;
+                foodItem.imgLink = req.body.imgLink || foodItem.imgLink;
+                foodItem.res_id = req.body.res_id || foodItem.res_id;
+                const updatedFoodItem = await foodItem.save();
+                res.json(updatedFoodItem);
+            } else {
+                const restaurant = await Food.findByIdAndUpdate(
+                    req.params.id,
+                    req.body, {
+                        new: true
+                    }
+                );
+                if (!restaurant) {
+                    return res.status(404).send();
+                }
+                await restaurant.save();
+                res.send({
+                    data: restaurant,
+                    success: "ok",
+                });
             }
-            foodItem.name = req.body.name || foodItem.name;
-            foodItem.tap_type = req.body.tap_type || foodItem.tap_type;
-            foodItem.short_desc = req.body.short_desc || foodItem.short_desc;
-            foodItem.long_desc = req.body.long_desc || foodItem.long_desc;
-            foodItem.imgLink = req.body.imgLink || foodItem.imgLink;
-            foodItem.res_id = req.body.res_id || foodItem.res_id;
-            const updatedFoodItem = await foodItem.save();
-            res.json(updatedFoodItem);
         } catch (err) {
             res.status(400).json({
                 message: err.message
@@ -149,6 +164,9 @@ class FoodController {
                 return res.status(404).json({
                     message: 'Food item not found'
                 });
+            }
+            if (isFile(path.join(process.cwd(), 'public', 'imgs', foodItem.imgLink))) {
+                fs.unlinkSync(path.join(process.cwd(), 'public', "imgs", foodItem.imgLink))
             }
             await foodItem.deleteOne();
             res.json({

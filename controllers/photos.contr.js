@@ -7,6 +7,14 @@ function pathJoin(filename) {
     const newPath = filename.split(' ').join('-');
     return path.normalize(newPath);
 }
+
+function isFile(filePath) {
+    try {
+        return fs.statSync(filePath).isFile()
+    } catch (error) {
+        return false
+    }
+}
 class HeroController {
     // Create new food item
     static async createFoodItem(req, res) {
@@ -81,47 +89,56 @@ class HeroController {
     // Update a food item by id
     static async updateFoodItemById(req, res) {
         try {
-            let {
-                file
-            } = req.files;
+            if (req.body) {
+                let {
+                    file
+                } = req.files;
 
-            if (file.truncated) throw new Error('you must send max 50 mb file')
-            let types = file.name.split('.')
-            let type = types[types.length - 1]
-            const random = Math.floor(Math.random() * 9000 + 1000)
-            let userUploadusername = pathJoin(req.body.title + random + '.' + type)
-            file ? await file.mv(
-                path.join(
-                    process.cwd(),
-                    'public',
-                    'imgs',
-                    userUploadusername
+                if (file.truncated) throw new Error('you must send max 50 mb file')
+                let types = file.name.split('.')
+                let type = types[types.length - 1]
+                const random = Math.floor(Math.random() * 9000 + 1000)
+                let userUploadusername = pathJoin(req.body.title + random + '.' + type)
+                await file.mv(
+                    path.join(
+                        process.cwd(),
+                        'public',
+                        'imgs',
+                        userUploadusername
+                    )
                 )
-            ) : null
-            const foodItem = await hero.findById(req.params.id);
+                const foodItem = await hero.findById(req.params.id);
 
-            function isFile(filePath) {
-                try {
-                    return fs.statSync(filePath).isFile()
-                } catch (error) {
-                    return false
+
+                if (!foodItem) {
+                    return res.status(404).json({
+                        message: 'Food item not found'
+                    });
                 }
-            }
-            if (!foodItem) {
-                return res.status(404).json({
-                    message: 'Food item not found'
-                });
-            }
-            req.body.imgLink = userUploadusername
-            if (file) {
+                req.body.imgLink = userUploadusername
                 if (isFile(path.join(process.cwd(), 'public', 'imgs', foodItem.imgLink))) {
                     fs.unlinkSync(path.join(process.cwd(), 'public', "imgs", foodItem.imgLink))
                 }
+                foodItem.imgLink = req.body.imgLink || foodItem.imgLink;
+                foodItem.res_id = req.body.res_id || foodItem.res_id;
+                const updatedFoodItem = await foodItem.save();
+                res.json(updatedFoodItem);
+            } else {
+                const restaurant = await hero.findByIdAndUpdate(
+                    req.params.id,
+                    req.body, {
+                        new: true
+                    }
+                );
+                if (!restaurant) {
+                    return res.status(404).send();
+                }
+                await restaurant.save();
+                res.send({
+                    data: restaurant,
+                    success: "ok",
+                });
             }
-            foodItem.imgLink = req.body.imgLink || foodItem.imgLink;
-            foodItem.res_id = req.body.res_id || foodItem.res_id;
-            const updatedFoodItem = await foodItem.save();
-            res.json(updatedFoodItem);
         } catch (err) {
             res.status(400).json({
                 message: err.message
@@ -137,6 +154,9 @@ class HeroController {
                     message: 'Food item not found'
                 });
             }
+            if (isFile(path.join(process.cwd(), 'public', 'imgs', foodItem.imgLink))) {
+                fs.unlinkSync(path.join(process.cwd(), 'public', "imgs", foodItem.imgLink))
+            }
             await foodItem.deleteOne();
             res.json({
                 message: 'Hero item deleted successfully'
@@ -148,4 +168,4 @@ class HeroController {
         }
     }
 }
-export default HeroController
+export default HeroController;

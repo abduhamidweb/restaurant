@@ -44,7 +44,6 @@ router.get('/worker/:id', async (req, res) => {
         });
     }
 });
-
 router.post('/worker', async (req, res) => {
     try {
         const worker = await workerService.createworker(req);

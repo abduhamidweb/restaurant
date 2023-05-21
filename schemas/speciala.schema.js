@@ -8,7 +8,8 @@ const SpecialsSchema = new mongoose.Schema({
     },
     tap_type: {
         type: String,
-        required: true
+        unique: true,
+        required: true,
     },
     short_desc: {
         required: true,
@@ -22,7 +23,7 @@ const SpecialsSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-   
+
     res_id: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Restaurant',
