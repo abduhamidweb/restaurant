@@ -16,14 +16,14 @@ const restaurantSchema = new mongoose.Schema({
     },
     contact: {
         type: String,
-        validate: {
-            validator: (value) => {
-                const regex = /^\+998\d{9}$/;
-                return regex.test(value);
+            validate: {
+                validator: (value) => {
+                    const regex = /^\+998\d{9}$/;
+                    return regex.test(value);
+                },
+                message: 'Telefon raqami noto‘g‘ri formatda yuborilgan.'
             },
-            message: 'Telefon raqami noto‘g‘ri formatda yuborilgan.'
-        },
-        set: (value) => value.replace(/[^0-9+]/g, '')
+            set: (value) => value.replace(/[^0-9+]/g, '')
     },
     rest_img: {
         type: String,
