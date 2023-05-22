@@ -178,7 +178,6 @@ class WorkerService {
                 }, {
                     new: true
                 });
-
                 await worker.save();
                 return worker;
             } else {
@@ -188,10 +187,8 @@ class WorkerService {
                 await worker.save();
                 return worker;
             }
-
         } catch (err) {
-            console.error('Error updating worker', err);
-            throw new Error('Could not update worker');
+            return err
         }
     }
     async updateworker2(id, req) {
@@ -225,6 +222,5 @@ class WorkerService {
             throw new Error('Could not delete worker');
         }
     }
-
 }
 export default WorkerService;

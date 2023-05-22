@@ -130,15 +130,12 @@ router.put('/worker/:id', async (req, res) => {
         const user = await workerService.updateworker(req.params.id, req);
         if (user) {
             res.status(200).json(user);
-        } else {
-            res.status(404).json({
-                error: 'User not found'
-            });
-        }
+        } 
     } catch (err) {
+    console.log('err :', err);
         res.status(500).json({
             error: err.message
-        });
+        }); 
     }
 });
 router.put('/workeradmin/:id', async (req, res) => {

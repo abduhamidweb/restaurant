@@ -71,7 +71,7 @@ app.listen(PORT, () => {
 //         },
 //         message: 'Telefon raqami noto‘g‘ri formatda yuborilgan.'
 //     },
-//     set: (value) => value.replace(/[^0-9+]/g, '') // Telefon raqamidagi faqat raqamlarni va + belgisini saqlash
+//     set: (value) => value.replace(/[^0-9+]/g, '') 
 // }
 
 

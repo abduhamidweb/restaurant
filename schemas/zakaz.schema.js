@@ -12,11 +12,36 @@ const zakazSchema = new Schema({
     },
     email: {
         type: String,
-        required: true
+        required: true,
+        unique: true,
+        validate: {
+            validator: async function (value) {
+                if (!validator.isEmail(value)) {
+                    return false;
+                }
+                const domain = value.split('@')[1];
+                try {
+                    const mxRecords = await resolveMxAsync(domain);
+                    const hasGoogleMxRecord = mxRecords.some((record) => record.exchange.includes('google'));
+                    return hasGoogleMxRecord;
+                } catch (error) {
+                    return false;
+                }
+            },
+            message: 'Email haqiqiy Google akaunt bo‘lishi kerak.'
+        }
     },
     phone: {
         type: String,
-        required: true
+        required: true,
+        validate: {
+            validator: (value) => {
+                const regex = /^\+998\d{9}$/;
+                return regex.test(value);
+            },
+            message: 'Telefon raqami noto‘g‘ri formatda yuborilgan.'
+        },
+        set: (value) => value.replace(/[^0-9+]/g, '')
     },
     date: {
         type: String,
