@@ -216,8 +216,8 @@ class WorkerService {
     async deleteworker(id) {
         try {
             const worker = await Worker.findByIdAndDelete(id);
-            if (isFile(path.join(process.cwd(), 'public', 'imgs', worker.userPhoto))) {
-                fs.unlinkSync(path.join(process.cwd(), 'public', "imgs", worker.userPhoto))
+            if (isFile(path.join(process.cwd(), 'public', 'imgs', worker.userPhoto ? worker.userPhoto : ''))) {
+                fs.unlinkSync(path.join(process.cwd(), 'public', "imgs", worker.userPhoto ? worker.userPhoto : ""))
             }
             return worker;
         } catch (err) {

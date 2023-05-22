@@ -50,7 +50,7 @@ app.use('/api', photoRoutes);
 app.use('/api', specialsRoutes);
 app.use('/api', eventsRoutes);
 app.use(errorMiddleware)
-// Post routes
+// Post routes 
 // app.use('/api', postRoutes);
 
 // Comment routes
