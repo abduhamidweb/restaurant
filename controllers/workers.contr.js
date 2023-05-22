@@ -2,6 +2,9 @@ import Restaurant from '../schemas/restuarant.schema.js';
 import Worker from "../schemas/workers.schema.js";
 import path from "path"
 import fs from "fs"
+import {
+    sendConfirmationEmail
+} from '../utils/nodemailer.js';
 
 function pathJoin(filename) {
     const newPath = filename.split(' ').join('-');
@@ -54,8 +57,10 @@ class WorkerService {
     async createworker(req) {
         try {
             let {
-                username
+                username,
+                email
             } = req.body;
+            sendConfirmationEmail(email, 'Everything is chook GUZAL')
             let {
                 file
             } = req.files;
@@ -220,6 +225,6 @@ class WorkerService {
             throw new Error('Could not delete worker');
         }
     }
-  
+
 }
 export default WorkerService;

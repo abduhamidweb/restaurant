@@ -7,12 +7,10 @@ import {
 import path from "path"
 import fs from "fs"
 import shufflePartial from '../utils/shuffle.js';
-
 function pathJoin(filename) {
     const newPath = filename.split(' ').join('-');
     return path.normalize(newPath);
 }
-
 function isFile(filePath) {
     try {
         return fs.statSync(filePath).isFile()
@@ -60,6 +58,7 @@ class RestaurantController {
                     if (!restaurantAdmin) {
                         return res.status(404).send();
                     };
+                    console.log(1);
                     res.send(restaurantAdmin);
                 }
             } else {
@@ -70,7 +69,7 @@ class RestaurantController {
                 restaurant.choose = shufflePartial(restaurant.choose, 3);
                 restaurant.workers = shufflePartial(restaurant.workers, 3, true);
                 restaurant.photos = shufflePartial(restaurant.photos, 8, true);
-                restaurant.foods = shufflePartial(restaurant.foods, 6, true);
+                restaurant.foods = shufflePartial(restaurant.foods, 5, true);
                 restaurant.resource = shufflePartial(restaurant.resource, 1, true);
                 if (!restaurant) {
                     return res.status(404).send();
