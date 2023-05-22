@@ -77,7 +77,7 @@ app.listen(PORT, () => {
 
 //   password: {
 //       type: String,
-//       required: true, 
+//       required: true,  
 //       validate: {
 //           validator: (value) => Joi.string().min(6).required().validate(value).error === null,
 //           message: 'Parol kamida 6 belgidan iborat bo‘lishi kerak.'
