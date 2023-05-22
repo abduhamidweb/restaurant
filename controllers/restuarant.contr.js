@@ -1,10 +1,12 @@
 import bossSchema from '../schemas/boss.schema.js';
 import Restaurant from '../schemas/restuarant.schema.js';
+import WorkerAdmin from '../schemas/workers.schema.js';
 import {
     JWT
 } from '../utils/jwt.js';
 import path from "path"
 import fs from "fs"
+import shufflePartial from '../utils/shuffle.js';
 
 function pathJoin(filename) {
     const newPath = filename.split(' ').join('-');
@@ -47,15 +49,35 @@ class RestaurantController {
     // Get a single restaurant by ID
     async findOne(req, res) {
         try {
-            const restaurant = await Restaurant.findById(req.params.id).
-            populate('resource').populate("workers").populate("users").populate('foods').
-            populate('zakaz').populate('contactUs').populate('hero').populate('choose').
-            populate('photos').populate('events').populate('space');
-
-            if (!restaurant) {
-                return res.status(404).send();
+            if (req.headers.token) {
+                let isAdminId = JWT.VERIFY(req.headers.token).id
+                let isAdmin = await WorkerAdmin.findById(isAdminId);
+                if (isAdminId && isAdmin.rol === 'admin') {
+                    const restaurantAdmin = await Restaurant.findById(req.params.id)
+                        .populate('resource').populate("workers").populate("users").populate('foods')
+                        .populate('zakaz').populate('contactUs').populate('hero').populate('choose')
+                        .populate('photos').populate('events').populate('space');
+                    if (!restaurantAdmin) {
+                        return res.status(404).send();
+                    };
+                    res.send(restaurantAdmin);
+                }
+            } else {
+                const restaurant = await Restaurant.findById(req.params.id)
+                    .populate('resource').populate("workers").populate("users").populate('foods')
+                    .populate('zakaz').populate('contactUs').populate('hero').populate('choose')
+                    .populate('photos').populate('events').populate('space');
+                restaurant.choose = shufflePartial(restaurant.choose, 3);
+                restaurant.workers = shufflePartial(restaurant.workers, 3, true);
+                restaurant.photos = shufflePartial(restaurant.photos, 8, true);
+                restaurant.foods = shufflePartial(restaurant.foods, 6, true);
+                restaurant.resource = shufflePartial(restaurant.resource, 1, true);
+                if (!restaurant) {
+                    return res.status(404).send();
+                }
+                res.send(restaurant);
             }
-            res.send(restaurant);
+
         } catch (error) {
             res.status(500).send(error);
         }

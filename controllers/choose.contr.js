@@ -1,5 +1,6 @@
 import Restaurant from "../schemas/restuarant.schema.js";
 import Zakaz from "../schemas/choose.schema.js"
+import shufflePartial from "../utils/shuffle.js";
 
 class chooseController {
     // CREATE (C in CRUD)
@@ -39,6 +40,7 @@ class chooseController {
     static async getAllZakaz(req, res) {
         try {
             const zakazlar = await Zakaz.find();
+         
             res.status(200).json({
                 success: true,
                 zakazlar
