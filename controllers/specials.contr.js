@@ -108,14 +108,7 @@ class FoodController {
                 let type = types[types.length - 1]
                 const random = Math.floor(Math.random() * 9000 + 1000)
                 let userUploadusername = pathJoin(req.body.name + random + '.' + type)
-                await file.mv(
-                    path.join(
-                        process.cwd(),
-                        'public',
-                        'imgs',
-                        userUploadusername
-                    )
-                )
+             
                 const foodItem = await Food.findById(req.params.id);
                 if (!foodItem) {
                     return res.status(404).json({
@@ -133,6 +126,14 @@ class FoodController {
                 foodItem.imgLink = req.body.imgLink || foodItem.imgLink;
                 foodItem.res_id = req.body.res_id || foodItem.res_id;
                 const updatedFoodItem = await foodItem.save();
+                   await file.mv(
+                       path.join(
+                           process.cwd(),
+                           'public',
+                           'imgs',
+                           userUploadusername
+                       )
+                   )
                 res.json(updatedFoodItem);
             } else {
                 const restaurant = await Food.findByIdAndUpdate(

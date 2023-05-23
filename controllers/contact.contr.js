@@ -27,7 +27,7 @@ class ContactController {
             const savedZakaz = await newZakaz.save();
             res.status(201).json({
                 success: true,
-                message: 'Sizning fikringiz yaratildi',
+                message: 'Sizning fikringiz qoshilda',
                 zakaz: savedZakaz
             });
         } catch (err) {
@@ -37,7 +37,6 @@ class ContactController {
             });
         }
     }
-
     // READ (R in CRUD)
     static async getAllZakaz(req, res) {
         try {

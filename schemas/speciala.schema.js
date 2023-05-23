@@ -8,8 +8,8 @@ const SpecialsSchema = new mongoose.Schema({
     },
     tap_type: {
         type: String,
-        unique: true,
         required: true,
+        unique: true
     },
     short_desc: {
         required: true,

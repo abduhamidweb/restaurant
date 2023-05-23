@@ -4,7 +4,12 @@ import mongoose, {
 const {
     Schema
 } = mongoose;
-
+import validator from "validator";
+import dns from 'dns';
+import {
+    promisify
+} from 'util';
+const resolveMxAsync = promisify(dns.resolveMx);
 const zakazSchema = new Schema({
     username: {
         type: String,

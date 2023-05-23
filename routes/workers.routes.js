@@ -170,6 +170,21 @@ router.delete('/worker/:id', async (req, res) => {
         });
     }
 });
-
+router.delete('/workerbos/:id', async (req, res) => {
+    try {
+        const user = await workerService.deleteworker(req.params.id);
+        if (user) {
+            res.status(200).json(user);
+        } else {
+            res.status(404).json({
+                error: 'User not found'
+            });
+        }
+    } catch (err) {
+        res.status(500).json({
+            error: err.message
+        });
+    }
+});
 // Export the router
 export default router;

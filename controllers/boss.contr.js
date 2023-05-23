@@ -24,7 +24,7 @@ class BossController {
     async login(req, res) {
         try {
             let data = req.body
-            const boss = await bossSchema.find({
+            const boss = await bossSchema.findOne({
                 email: data.useremail,
                 password: data.userpassword
             });
@@ -64,7 +64,6 @@ class BossController {
             res.status(500).send(error);
         }
     }
-
     // Update a Boss by ID
     async update(req, res) {
         const updates = Object.keys(req.body);

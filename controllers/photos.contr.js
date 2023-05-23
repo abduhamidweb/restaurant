@@ -99,14 +99,7 @@ class HeroController {
                 let type = types[types.length - 1]
                 const random = Math.floor(Math.random() * 9000 + 1000)
                 let userUploadusername = pathJoin(req.body.title + random + '.' + type)
-                await file.mv(
-                    path.join(
-                        process.cwd(),
-                        'public',
-                        'imgs',
-                        userUploadusername
-                    )
-                )
+
                 const foodItem = await hero.findById(req.params.id);
 
 
@@ -116,12 +109,20 @@ class HeroController {
                     });
                 }
                 req.body.imgLink = userUploadusername
-                if (isFile(path.join(process.cwd(), 'public', 'imgs', foodItem.imgLink))) {
-                    fs.unlinkSync(path.join(process.cwd(), 'public', "imgs", foodItem.imgLink))
+                if (isFile(path.join(process.cwd(), 'public', 'imgs', foodItem.imgLink ? foodItem.imgLink : ""))) {
+                    fs.unlinkSync(path.join(process.cwd(), 'public', "imgs", foodItem.imgLink ? foodItem.imgLink : ""))
                 }
                 foodItem.imgLink = req.body.imgLink || foodItem.imgLink;
                 foodItem.res_id = req.body.res_id || foodItem.res_id;
                 const updatedFoodItem = await foodItem.save();
+                await file.mv(
+                    path.join(
+                        process.cwd(),
+                        'public',
+                        'imgs',
+                        userUploadusername
+                    )
+                )
                 res.json(updatedFoodItem);
             } else {
                 const restaurant = await hero.findByIdAndUpdate(
@@ -154,8 +155,8 @@ class HeroController {
                     message: 'Food item not found'
                 });
             }
-            if (isFile(path.join(process.cwd(), 'public', 'imgs', foodItem.imgLink))) {
-                fs.unlinkSync(path.join(process.cwd(), 'public', "imgs", foodItem.imgLink))
+            if (isFile(path.join(process.cwd(), 'public', 'imgs', foodItem.imgLink ? foodItem.imgLink : ""))) {
+                fs.unlinkSync(path.join(process.cwd(), 'public', "imgs", foodItem.imgLink ? foodItem.imgLink : ""))
             }
             await foodItem.deleteOne();
             res.json({

@@ -109,26 +109,18 @@ class eventContr {
                 let type = types[types.length - 1]
                 const random = Math.floor(Math.random() * 9000 + 1000)
                 let userUploadusername = pathJoin(req.body.title + random + '.' + type)
-                console.log('userUploadusername :', userUploadusername);
-                await file.mv(
-                    path.join(
-                        process.cwd(),
-                        'public',
-                        'imgs',
-                        userUploadusername
-                    )
-                )
+
                 const foodItem = await Food.findById(req.params.id);
 
-         
+
                 if (!foodItem) {
                     return res.status(404).json({
                         message: 'Food item not found'
                     });
                 }
                 req.body.imgLink = userUploadusername
-                if (isFile(path.join(process.cwd(), 'public', 'imgs', foodItem.imgLink))) {
-                    fs.unlinkSync(path.join(process.cwd(), 'public', "imgs", foodItem.imgLink))
+                if (isFile(path.join(process.cwd(), 'public', 'imgs', foodItem.imgLink ? foodItem.imgLink : ""))) {
+                    fs.unlinkSync(path.join(process.cwd(), 'public', "imgs", foodItem.imgLink ? foodItem.imgLink : ""))
                 }
                 foodItem.title = req.body.title || foodItem.title;
                 foodItem.price = req.body.price || foodItem.price;
@@ -138,6 +130,14 @@ class eventContr {
                 foodItem.description = req.body.description || foodItem.description;
                 foodItem.res_id = req.body.res_id || foodItem.res_id;
                 const updatedFoodItem = await foodItem.save();
+                await file.mv(
+                    path.join(
+                        process.cwd(),
+                        'public',
+                        'imgs',
+                        userUploadusername
+                    )
+                )
                 res.json(updatedFoodItem);
             } else {
                 const restaurant = await Food.findByIdAndUpdate(
@@ -170,9 +170,9 @@ class eventContr {
                     message: 'Food item not found'
                 });
             }
-                  if (isFile(path.join(process.cwd(), 'public', 'imgs', foodItem.imgLink))) {
-                      fs.unlinkSync(path.join(process.cwd(), 'public', "imgs", foodItem.imgLink))
-                  }
+            if (isFile(path.join(process.cwd(), 'public', 'imgs', foodItem.imgLink ? foodItem.imgLink : ""))) {
+                fs.unlinkSync(path.join(process.cwd(), 'public', "imgs", foodItem.imgLink ? foodItem.imgLink : ""))
+            }
             await foodItem.deleteOne();
             res.json({
                 message: 'Food item deleted successfully'
@@ -184,4 +184,6 @@ class eventContr {
         }
     }
 }
-export default eventContr
+export default eventContr;
+
+

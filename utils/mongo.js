@@ -14,7 +14,7 @@ mongoose.connect("mongodb+srv://abduhamidbotirovweb:abduhamidjon707@cluster0.ab9
 //   const db = mongoose.connection;
 
 //   db.on('error', console.error.bind(console, 'Ulanishda xatolik yuz berdi:'));
-//   db.once('open', function () {
+//   db.once('open', function () { 
 //     console.log("MongoDB-serverga muvaffaqiyatli ulanildi!");
 //   });
 // }

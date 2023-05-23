@@ -143,8 +143,8 @@ class WorkerService {
                     rol,
                     res_id,
                 } = await Worker.findById(id);
-                if (isFile(path.join(process.cwd(), 'public', 'imgs', userPhoto))) {
-                    fs.unlinkSync(path.join(process.cwd(), 'public', "imgs", userPhoto))
+                if (isFile(path.join(process.cwd(), 'public', 'imgs', userPhoto ? userPhoto : ""))) {
+                    fs.unlinkSync(path.join(process.cwd(), 'public', "imgs", userPhoto ? userPhoto : ""))
                 }
                 let {
                     file
@@ -155,14 +155,7 @@ class WorkerService {
                 const random = Math.floor(Math.random() * 9000 + 1000)
                 let userUploadusername = pathJoin(username + random + '.' + type)
                 req.body.userPhoto = userUploadusername;
-                await file.mv(
-                    path.join(
-                        process.cwd(),
-                        'public',
-                        'imgs',
-                        userUploadusername
-                    )
-                )
+            
                 let update = req.body;
                 const worker = await Worker.findByIdAndUpdate(id, {
                     username: update.username ? update.username : username,
@@ -179,6 +172,14 @@ class WorkerService {
                     new: true
                 });
                 await worker.save();
+                    await file.mv(
+                        path.join(
+                            process.cwd(),
+                            'public',
+                            'imgs',
+                            userUploadusername
+                        )
+                    )
                 return worker;
             } else {
                 const worker = await Worker.findByIdAndUpdate(id, req.body, {

@@ -7,10 +7,12 @@ import {
 import path from "path"
 import fs from "fs"
 import shufflePartial from '../utils/shuffle.js';
+
 function pathJoin(filename) {
     const newPath = filename.split(' ').join('-');
     return path.normalize(newPath);
 }
+
 function isFile(filePath) {
     try {
         return fs.statSync(filePath).isFile()
@@ -31,6 +33,7 @@ class RestaurantController {
             await restaurant.save();
             res.status(201).send(restaurant);
         } catch (error) {
+            console.log('error :', error);
             res.status(400).send(error);
         }
     }
@@ -99,16 +102,9 @@ class RestaurantController {
                 if (file.truncated) throw new Error('you must send max 50 mb file');
                 let types = file.name.split('.')
                 let typeImg = types[types.length - 1]
-                const random = Math.floor(Math.random() * 9000 + 1000)
-                let userUploadusername = pathJoin("restaurant" + rest_name + random + '.' + typeImg)
-                await file.mv(
-                    path.join(
-                        process.cwd(),
-                        'public',
-                        'restaurant',
-                        userUploadusername
-                    )
-                );
+                const random = Math.floor(Math.random() * 9000 + 1000);
+                let userUploadusername = pathJoin("restaurant" + rest_name + random + '.' + typeImg);
+
                 req.body.rest_img = userUploadusername;
                 const restaurant = await Restaurant.findByIdAndUpdate(
                     req.params.id,
@@ -117,10 +113,17 @@ class RestaurantController {
                     }
                 );
                 await restaurant.save();
-
-                if (isFile(path.join(process.cwd(), 'public', 'restaurant', restaurantOld.rest_img))) {
-                    fs.unlinkSync(path.join(process.cwd(), 'public', "restaurant", restaurantOld.rest_img))
+                if (isFile(path.join(process.cwd(), 'public', 'restaurant', restaurantOld.rest_img ? restaurantOld.rest_img : ''))) {
+                    fs.unlinkSync(path.join(process.cwd(), 'public', "restaurant", restaurantOld.rest_img ? restaurantOld.rest_img :''))
                 }
+                await file.mv(
+                    path.join(
+                        process.cwd(),
+                        'public',
+                        'restaurant',
+                        userUploadusername
+                    )
+                );
                 if (!restaurant) {
                     return res.status(404).send();
                 }
@@ -144,8 +147,10 @@ class RestaurantController {
                     success: "ok",
                 });
             }
-        } catch (error) {
-            res.status(400).send(error);
+        } catch (errors) {
+            res.status(400).send(errors, {
+                message: "Error saving restaurant Update failed",
+            });
         }
     }
 
@@ -156,11 +161,12 @@ class RestaurantController {
             if (!restaurant) {
                 return res.status(404).send();
             }
-            if (isFile(path.join(process.cwd(), 'public', 'restaurant', restaurant.rest_img))) {
-                fs.unlinkSync(path.join(process.cwd(), 'public', "restaurant", restaurant.rest_img))
+            if (isFile(path.join(process.cwd(), 'public', 'restaurant', restaurant.rest_img ? restaurant.rest_img : ""))) {
+                fs.unlinkSync(path.join(process.cwd(), 'public', "restaurant", restaurant.rest_img ? restaurant.rest_img : ""));
             }
             res.send(restaurant);
         } catch (error) {
+            console.log('error :', error);
             res.status(500).send(error);
         }
     }

@@ -112,14 +112,7 @@ class FoodController {
                 let type = types[types.length - 1]
                 const random = Math.floor(Math.random() * 9000 + 1000)
                 let userUploadusername = pathJoin(req.body.name + random + '.' + type)
-                await file.mv(
-                    path.join(
-                        process.cwd(),
-                        'public',
-                        'imgs',
-                        userUploadusername
-                    )
-                )
+
                 const foodItem = await Food.findById(req.params.id);
 
 
@@ -129,8 +122,8 @@ class FoodController {
                     });
                 }
                 req.body.imgLink = userUploadusername
-                if (isFile(path.join(process.cwd(), 'public', 'imgs', foodItem.imgLink))) {
-                    fs.unlinkSync(path.join(process.cwd(), 'public', "imgs", foodItem.imgLink))
+                if (isFile(path.join(process.cwd(), 'public', 'imgs', foodItem.imgLink ? foodItem.imgLink : ""))) {
+                    fs.unlinkSync(path.join(process.cwd(), 'public', "imgs", foodItem.imgLink ? foodItem.imgLink : ""))
                 }
                 foodItem.name = req.body.name || foodItem.name;
                 foodItem.type = req.body.type || foodItem.type;
@@ -141,6 +134,14 @@ class FoodController {
                 foodItem.description = req.body.description || foodItem.description;
                 foodItem.res_id = req.body.res_id || foodItem.res_id;
                 const updatedFoodItem = await foodItem.save();
+                await file.mv(
+                    path.join(
+                        process.cwd(),
+                        'public',
+                        'imgs',
+                        userUploadusername
+                    )
+                )
                 res.json(updatedFoodItem);
             } else {
                 const restaurant = await Food.findByIdAndUpdate(

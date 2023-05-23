@@ -6,7 +6,6 @@ const restaurantSchema = new mongoose.Schema({
         trim: true,
         lowercase: true
     },
-
     rest_year: {
         type: Number,
     },
@@ -16,14 +15,23 @@ const restaurantSchema = new mongoose.Schema({
     },
     contact: {
         type: String,
-            validate: {
-                validator: (value) => {
+        required: [true, 'Telefon raqami kiritilmagan.'],
+        validate: {
+            validator: function (value) {
+                if (value) {
                     const regex = /^\+998\d{9}$/;
                     return regex.test(value);
-                },
-                message: 'Telefon raqami noto‘g‘ri formatda yuborilgan.'
+                }
+                return true;
             },
-            set: (value) => value.replace(/[^0-9+]/g, '')
+            message: 'Telefon raqami noto‘g‘ri formatda yuborilgan.'
+        },
+        set: function (value) {
+            if (value === null) {
+                return value;
+            }
+            return value.replace(/[^0-9+]/g, '');
+        }
     },
     rest_img: {
         type: String,
